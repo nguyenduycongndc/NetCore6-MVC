@@ -199,22 +199,6 @@ namespace ProjectTest.Controllers
                         //
                         ExcelRange dataRp2 = worksheet.Cells[startrow, startcol + 2];
                         dataRp2.Value = string.Join(", ", a.UserName);
-                        ////
-                        //ExcelRange dataRp3 = worksheet.Cells[startrow, startcol + 3];
-                        //dataRp3.Value = string.Join(", ", a.);
-                        ////
-                        //ExcelRange dataRp4 = worksheet.Cells[startrow, startcol + 4];
-                        //dataRp4.Value = string.Join(", ", a.);
-                        ////
-                        //ExcelRange dataRp5 = worksheet.Cells[startrow, startcol + 5];
-                        //dataRp5.Value = string.Join(", ", a.);
-                        ////
-                        //ExcelRange dataRp6 = worksheet.Cells[startrow, startcol + 6];
-                        //dataRp6.Value = string.Join(", ", a.);
-                        ////
-                        //ExcelRange dataRp7 = worksheet.Cells[startrow, startcol + 7];
-                        //dataRp7.Value = string.Join(", ", a.);
-
                         startrow++;
                     }
 

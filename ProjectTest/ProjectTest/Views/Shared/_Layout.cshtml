@@ -2,48 +2,137 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ProjectTest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewData["Title"] Base.NetCore6</title> <!-- Title layout -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ProjectTest.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    @*Alert*@
+    <script src="~/Popper-1.12.9.js"></script>
+    <script src="/js/jquery-1.11.0.min.js"></script>
+
+    @*<script src="~/Bootstrap-4.0.0.js"></script>*@
+
+    <!-- Basic Page Info -->
+    <!-- Site favicon -->
+    @* Icon *@
+    <link rel="icon" type="image/png" sizes="32x32" href="~/vendors/images/favicon-32x32.png">
+
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Google Font -->
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="~/vendors/styles/core.css">
+    <link rel="stylesheet" type="text/css" href="~/vendors/styles/icon-font.min.css">
+    <link rel="stylesheet" type="text/css" href="~/vendors/styles/style.css">
+    <link href="~/src/plugins/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+    <script src="~/plugins/toastr/js/toastr.min.js"></script>
+    <link href="~/plugins/toastr/css/toastr.min.css" rel="stylesheet" />
+    <link href="~/plugins/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/plugins/sweetalert2/dist/sweetalert2.min.js" asp-append-version="true"></script>
+    <script src="~/src/plugins/bootstrap/popper.min.js" asp-append-version="true"></script>
+
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProjectTest</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+    <div id="preloader" style="display: none; z-index: 1; position: absolute; background-color: rgba(0, 0, 0, 0.5); inset: 0px; ">
+        <div class="loadspin" style="position: absolute; width: 5rem; height: 10rem; top: 50%; margin: 0 auto; left: 0; right: 0; ">
+            <div class="spinner-border" role="status">
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - ProjectTest - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+    <div class="header" style="z-index:10">
+        @{
+            await Html.RenderPartialAsync("_TopNavigation.cshtml");
+        }
+    </div>
+    <!-- Menu Left-->
+    @{
+        await Html.RenderPartialAsync("_MenuLeftRender.cshtml");
+    }
+    <div class="header-white sidebar-dark" id="body-root">
+        @RenderBody()
+    </div>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+
 </body>
 </html>
+<script src="~/vendors/scripts/core.js" asp-append-version="true"></script>
+<script src="~/vendors/scripts/script.min.js" asp-append-version="true"></script>
+<script src="~/vendors/scripts/process.js" asp-append-version="true"></script>
+<script src="~/vendors/scripts/layout-settings.js" asp-append-version="true"></script>
+
+<script src="~/src/plugins/datatables/js/jquery.dataTables.min.js" type="text/javascript" asp-append-version="true"></script>
+<script src="~/src/plugins/datatables/js/dataTables.bootstrap4.min.js" asp-append-version="true"></script>
+<script src="~/src/plugins/datatables/js/dataTables.responsive.min.js" asp-append-version="true"></script>
+<script src="~/src/plugins/datatables/js/responsive.bootstrap4.min.js" asp-append-version="true"></script>
+<!-- buttons for Export datatable -->
+<script src="~/src/plugins/datatables/js/dataTables.buttons.min.js" asp-append-version="true"></script>
+<script src="~/src/plugins/datatables/js/buttons.bootstrap4.min.js" asp-append-version="true"></script>
+<script src="~/src/plugins/datatables/js/buttons.print.min.js" asp-append-version="true"></script>
+<script src="~/src/plugins/datatables/js/buttons.html5.min.js" asp-append-version="true"></script>
+<script src="~/src/plugins/datatables/js/buttons.flash.min.js" asp-append-version="true"></script>
+@*<script src="~/src/plugins/datatables/js/pdfmake.min.js" asp-append-version="true"></script>*@
+<script src="~/src/plugins/datatables/js/vfs_fonts.js" asp-append-version="true"></script>
+<!-- Datatable Setting js -->
+<script src="~/vendors/scripts/datatable-setting.js" asp-append-version="true"></script>
+<script src="~/js/api.js" asp-append-version="true"></script>
+<script>
+    $(".modal").on("shown.bs.modal", function () {
+        if ($(".modal-backdrop.fade.show").length >= 0) {
+            $(".modal-backdrop.fade.show").remove();
+        }
+    })
+    //$(function () {
+    //    $.ajaxSetup({
+    //        beforeSend: function (xhr) {
+    //            var rd = Math.floor((Math.random() * 9999999) + 1);
+    //            xhr.setRequestHeader('Authorization', getSessionToken());
+    //            xhr.setRequestHeader('Accept-Language', 'vi-VN');
+    //            xhr.setRequestHeader('Loading-Id', rd);
+    //        },
+    //        complete: function (xhr, status, error) {
+    //            if (xhr.status == 401)
+    //                //swal("Unauthorized!", "Bạn cần phải đăng nhập vào hệ thống!", "warning");
+    //                toastr.error("Dữ liệu đầu vào hoặc thông tin tài khoản không hợp lệ");
+    //            //toastr.error("Dữ liệu đầu vào hoặc thông tin tài khoản không hợp lệ!", "Lỗi!", { progressBar: true });
+    //            else if (xhr.status == 404)
+    //                //swal("Not found!", "Không tìm thấy đối tượng để xử lý!", "warning");
+    //                toastr.error("Không tìm thấy đối tượng để xử lý!", "Lỗi!", { progressBar: true });
+    //            else if (xhr.status == 500)
+    //                //swal("Internal Server Error!", "Có lỗi xảy ra trong quá trình xử lý!", "warning");
+    //                toastr.error("Có lỗi xảy ra trong quá trình xử lý!", "Lỗi!", { progressBar: true });
+    //            else if (xhr.status == 400)
+    //                //swal("Lỗi dữ liệu!", "Dữ liệu đầu vào hoặc thông tin tài khoản không hợp lệ!", "warning");
+    //                toastr.error("Dữ liệu đầu vào hoặc thông tin tài khoản không hợp lệ!", "Lỗi!", { progressBar: true });
+    //            //else if (xhr.status != 200)
+    //            //    swal(error + "!", "Có lỗi trong quá trình xử lý!", "error");
+    //        }
+    //    });
+
+    //    $(document).ajaxStop(function () {
+    //    });
+    //})
+    function getSessionToken() {
+        if (sessionStorage['SessionToken'] != undefined)
+            return sessionStorage['SessionToken'];
+        return null;
+    }
+
+    function logout() {
+        $.ajax({
+            method: "GET",
+            url: "/Login/Logout",
+            success: function (result) {
+                sessionStorage.clear();
+                localStorage.clear();
+                window.location.href = "/Login";
+            }
+        });
+    }
+
+</script>

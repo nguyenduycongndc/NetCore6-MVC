@@ -10,7 +10,7 @@ using ProjectTest.Tool.ServicesTool;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlDbConnectionString")));
-
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IUserService, UserServices>();
 builder.Services.AddScoped<ILoginService, LoginService>();
@@ -21,7 +21,6 @@ builder.Services.AddSingleton<IWorker, Worker>();
 builder.Services.AddHostedService<DerivedBackgroundPrinter>();
 
 builder.Services.AddDistributedMemoryCache();
-
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromSeconds(10);
@@ -29,8 +28,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 // Add services to the container.
+builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,6 +40,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+app.UseAuthentication();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -48,8 +49,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
+
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();

@@ -17,8 +17,8 @@ using ProjectTest.Services;
 
 namespace ProjectTest.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    //[Route("api/[controller]")]
+    //[ApiController]
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
@@ -31,7 +31,7 @@ namespace ProjectTest.Controllers
             _loginServices = loginServices;
             _sendMailService = sendMailService;
         }
-        [HttpGet]
+        //[HttpGet]
         public IActionResult Index()
         {
             return View();
