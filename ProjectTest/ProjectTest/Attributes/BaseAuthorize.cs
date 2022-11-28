@@ -37,7 +37,7 @@ namespace ProjectTest.Attributes
             _rule = rule;
             _role = role;
         }
-        public async void OnAuthorization(AuthorizationFilterContext context)
+        public void OnAuthorization(AuthorizationFilterContext context)
         {
             bool hasAllowAnonymousAttribute = false;
 
@@ -79,7 +79,7 @@ namespace ProjectTest.Attributes
                 if (user == null)
                 {
                     //iLogger.LogError($"{userId}: Unauthorized: Access denied!");
-                     _logger.Log(NLog.LogLevel.Error, $"{userId}: Unauthorized: Access denied!");
+                    _logger.Log(NLog.LogLevel.Error, $"{userId}: Unauthorized: Access denied!");
                     context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
                     return;
                 }
@@ -89,7 +89,7 @@ namespace ProjectTest.Attributes
                     var ar = rls.Split(',');
                     if (string.IsNullOrEmpty(rls) || !ar.Contains(_role))
                     {
-                         _logger.Log(NLog.LogLevel.Error, $"{userId}: Unauthorized: Access denied!");
+                        _logger.Log(NLog.LogLevel.Error, $"{userId}: Unauthorized: Access denied!");
                         context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
                         return;
                     }
@@ -100,7 +100,7 @@ namespace ProjectTest.Attributes
                     var ar = rls.Split(',');
                     if (string.IsNullOrEmpty(rls) || !ar.Contains(_rule))
                     {
-                         _logger.Log(NLog.LogLevel.Error, $"{userId}: Unauthorized: Access denied!");
+                        _logger.Log(NLog.LogLevel.Error, $"{userId}: Unauthorized: Access denied!");
                         context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
                         return;
                     }
@@ -109,6 +109,6 @@ namespace ProjectTest.Attributes
                 _logger.Log(NLog.LogLevel.Info, $"{user.Data/*user.UserName*/}: logon into api successfully!");
             }
         }
-        
+
     }
 }
