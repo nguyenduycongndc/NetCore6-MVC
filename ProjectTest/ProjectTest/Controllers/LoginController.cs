@@ -14,10 +14,12 @@ using ProjectTest.Model;
 using ProjectTest.Services.Interface;
 using ProjectTest.Common;
 using ProjectTest.Services;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace ProjectTest.Controllers
 {
     //[Route("api/[controller]")]
+    //[Route("[controller]")]
     //[ApiController]
     public class LoginController : Controller
     {
@@ -31,7 +33,6 @@ namespace ProjectTest.Controllers
             _loginServices = loginServices;
             _sendMailService = sendMailService;
         }
-        //[HttpGet]
         public IActionResult Index()
         {
             return View();
@@ -43,7 +44,7 @@ namespace ProjectTest.Controllers
         public ResultModel LoginUser([FromBody] InputLoginModel inputModel)
         {
             var _login = _loginServices.Login(inputModel);
-            if (_login.Code == 200)
+            if (!string.IsNullOrEmpty(_login.Token))
             {
                 HttpContext.Session.SetString("SessionToken", _login.Token);
             }

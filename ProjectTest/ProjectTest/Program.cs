@@ -21,13 +21,13 @@ builder.Services.AddSingleton<IWorker, Worker>();
 builder.Services.AddHostedService<DerivedBackgroundPrinter>();
 
 // Add services to the container.
+builder.Services.AddControllers();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = ".AdventureWorks.Session";
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    //options.IdleTimeout = TimeSpan.FromSeconds(160);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });

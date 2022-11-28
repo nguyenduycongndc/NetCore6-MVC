@@ -31,7 +31,7 @@ BEGIN
 	-- interfering with SELECT statements.
 	declare @Result bit;
 	SET NOCOUNT ON;
-	If exists (SELECT * FROM users WHERE id = @id and is_deleted <> 1)
+	If exists (SELECT * FROM users WHERE id = @id and (is_deleted <> 1 or is_deleted is null))
     -- Insert statements for procedure here
 	BEGIN
 			UPDATE users
@@ -42,7 +42,7 @@ BEGIN
 						users.modified_at = GETDATE(),
 						users.modified_by = @modified_by
 					from users 
-					WHERE users.id = @id and is_deleted <> 1
+					WHERE users.id = @id and (is_deleted <> 1 or is_deleted is null)
 			BEGIN
 				set @Result = 1;
 				select @Result as Rs

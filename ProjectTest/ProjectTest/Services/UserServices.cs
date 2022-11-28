@@ -1,4 +1,5 @@
-﻿using ProjectTest.Common;
+﻿using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using ProjectTest.Common;
 using ProjectTest.Data;
 using ProjectTest.Model;
 using ProjectTest.Repo.Interface;
@@ -200,8 +201,22 @@ namespace ProjectTest.Services
         {
             try
             {
+                var checkEmail = new List<Users>();
                 var checkUser = userRepo.GetDetail(updateModel.Id);
-                var checkEmail = userRepo.CheckEmail(updateModel.Email);
+                if (string.IsNullOrEmpty(updateModel.Email) && updateModel.Email != checkUser[0].Email)
+                {
+                    checkEmail = userRepo.CheckEmail(updateModel.Email);
+                    if (checkEmail.Count() != 0)
+                    {
+                        _logger.LogError("Email này đã được sử dụng");
+                        Result = new ResultModel()
+                        {
+                            Message = "Not Found",
+                            Code = 404,
+                        };
+                        return Result;
+                    }
+                }
                 if (checkUser.Count() == 0)
                 {
                     _logger.LogError("Tài khoản không tồn tại");
@@ -212,16 +227,7 @@ namespace ProjectTest.Services
                     };
                     return Result;
                 }
-                if (checkUser.Count() == 0)
-                {
-                    _logger.LogError("Email này đã được sử dụng");
-                    Result = new ResultModel()
-                    {
-                        Message = "Not Found",
-                        Code = 404,
-                    };
-                    return Result;
-                }
+                
                 UserUpdateModel us = new UserUpdateModel()
                 {
                     Id = updateModel.Id,
