@@ -43,7 +43,7 @@ namespace ProjectTest.Controllers
         public ResultModel LoginUser([FromBody] InputLoginModel inputModel)
         {
             var _login = _loginServices.Login(inputModel);
-            if (_login.Data != null)
+            if (_login.Code == 200)
             {
                 HttpContext.Session.SetString("SessionToken", _login.Token);
             }

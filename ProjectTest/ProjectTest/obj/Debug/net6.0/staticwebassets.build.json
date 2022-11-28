@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "shMQKd06r45GNJ4k7sj0i1PTEWro6Vp9RsyLoR3elr4=",
+  "Hash": "nmCYPOLNLsuREyNXBpsRWq+jI1F7HmXQSHXMwFA92ks=",
   "Source": "ProjectTest",
   "BasePath": "_content/ProjectTest",
   "Mode": "Default",
@@ -90659,6 +90659,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\vendors\\images\\upload-file-img.jpg"
+    },
+    {
+      "Identity": "E:\\code\\NetCore6-MVC\\ProjectTest\\ProjectTest\\wwwroot\\vendors\\images\\user.png",
+      "SourceId": "ProjectTest",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\code\\NetCore6-MVC\\ProjectTest\\ProjectTest\\wwwroot\\",
+      "BasePath": "_content/ProjectTest",
+      "RelativePath": "vendors/images/user.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\vendors\\images\\user.png"
     },
     {
       "Identity": "E:\\code\\NetCore6-MVC\\ProjectTest\\ProjectTest\\wwwroot\\vendors\\images\\wave.png",
