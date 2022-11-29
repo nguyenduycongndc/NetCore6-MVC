@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "YFOUFsRr3rHDH/Cc5IjLwFYzT/ZQ4ogfX4hYYSQ0E+E=",
+  "Hash": "weZE+SddAts67jqqmwLd0qFRirSYsUVnlXmBDoJoNtI=",
   "Source": "ProjectTest",
   "BasePath": "_content/ProjectTest",
   "Mode": "Default",
@@ -66,6 +66,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "E:\\code\\NetCore6-MVC\\ProjectTest\\ProjectTest\\wwwroot\\css\\tablecus.css",
+      "SourceId": "ProjectTest",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\code\\NetCore6-MVC\\ProjectTest\\ProjectTest\\wwwroot\\",
+      "BasePath": "_content/ProjectTest",
+      "RelativePath": "css/tablecus.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\tablecus.css"
     },
     {
       "Identity": "E:\\code\\NetCore6-MVC\\ProjectTest\\ProjectTest\\wwwroot\\favicon.ico",

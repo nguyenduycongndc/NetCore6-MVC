@@ -8,7 +8,7 @@
 <script src="~/js/jsApp/usertype.js" type="text/javascript" asp-append-version="true"></script>
 <script src="~/js/common.js" type="text/javascript" asp-append-version="true"></script>
 <script src="~/js/constant.js" type="text/javascript" asp-append-version="true"></script>
-
+<link href="~/css/tablecus.css" rel="stylesheet" type="text/css" />
 <div class="main-container">
     <div class="pd-ltr-20">
         <div class="card" id="view">
@@ -227,6 +227,7 @@
             <div class="card-body card-custom">
                 <form id="formEdit" class="form-valide" action="#" method="post" style="margin-top: 20px;">
                     <input type="hidden" id="IdEdit" name="IdEdit" value="0" />
+                    <input type="hidden" id="IdLogin" name="IdLogin" value=@currentuser.Id />
                     <div class="row">
                         <div class="col-md-12 row mb-3">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-6">

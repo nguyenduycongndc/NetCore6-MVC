@@ -2,12 +2,12 @@
 function fnDeleteSuccess(rspn) {
     swal({
         title: "Thông báo",
-        text: 'Bạn có chắc chắn muốn xoá bản ghi' + ' ' + '"' + rspn.fullName + '"',
+        text: 'Bạn có chắc chắn muốn xoá bản ghi' + ' ' + '"' + rspn.data.fullName + '"',
         type: 'warning',
         showCancelButton: !0,
     }).then((isConfirm) => {
         if (isConfirm.value == true) {
-            fnDeleteUser(rspn.id);
+            fnDeleteUser(rspn.data.id);
         }
         return false;
     });
@@ -52,7 +52,7 @@ function createUserSuccess(data) {
 }
 
 function fnDeleteUserSuccess(rspn) {
-    if (rspn === true) {
+    if (rspn.data === true) {
         toastr.success("Xóa dữ liệu thành công");
         onSearch();
     }
@@ -134,7 +134,7 @@ function fnSearchSuccess(rspn) {
                 +
                 //'<a type="button" class="btn icon-default btn-action-custom" onclick="openView(3,' + obj.id + ')"><i data-toggle="tooltip" title="Cập nhật" class="micon dw dw-edit2" aria-hidden="true"></i></a>' +
 
-                (obj.isActive == 1 ?
+                (obj.isActive == 1 && obj.id != $('#IdLogin').val() ?
                     '<a type="button" class="btn icon-delete btn-action-custom" onclick="Delete(' + obj.id + ')" style="color:red"><i data-toggle="tooltip" title="Xóa" class="fa fa-trash" aria-hidden="true"></i></a>' :
                     '<a type="button" class="btn icon-disabled btn-action-custom" ><i data-toggle="tooltip" title="Xóa" class="fa fa-trash" aria-hidden="true" ></i></a>')
                 +

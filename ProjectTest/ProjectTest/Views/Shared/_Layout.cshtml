@@ -126,7 +126,7 @@
     function logout() {
         $.ajax({
             method: "GET",
-            url: "/Login/Logout",
+            url: "/Logout",
             success: function (result) {
                 sessionStorage.clear();
                 localStorage.clear();
