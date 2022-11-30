@@ -121,6 +121,7 @@ function fnSearchSuccess(rspn) {
                 '<td class="text-center"></td>' +
                 '<td>' + obj.fullName + '</td>' +
                 '<td>' + obj.userName + '</td>' +
+                '<td>' + obj.email + '</td>' +
                 (obj.isActive == 1 ?
                     '<td style="color:green">' + TT + '</td>' :
                     '<td style="color:red">' + TT + '</td>') +

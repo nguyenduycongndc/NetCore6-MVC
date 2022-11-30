@@ -29,6 +29,7 @@ namespace ProjectTest.Services
                 Id = x.Id,
                 UserName = x.UserName,
                 FullName = x.FullName,
+                Email = x.Email,
                 IsActive = x.IsActive,
             }).OrderBy(x => x.Id).ToList();
             var data = new ResultModel()
@@ -53,6 +54,7 @@ namespace ProjectTest.Services
                 Id = x.Id,
                 UserName = x.UserName,
                 FullName = x.FullName,
+                Email = x.Email,
                 IsActive = x.IsActive,
             }).OrderBy(x => x.Id).ToList();
             var data = new ExportUserModel()

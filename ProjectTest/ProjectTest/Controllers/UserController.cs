@@ -199,6 +199,9 @@ namespace ProjectTest.Controllers
                         //
                         ExcelRange dataRp2 = worksheet.Cells[startrow, startcol + 2];
                         dataRp2.Value = string.Join(", ", a.UserName);
+                        //
+                        ExcelRange dataRp3 = worksheet.Cells[startrow, startcol + 3];
+                        dataRp3.Value = string.Join(", ", a.Email);
                         startrow++;
                     }
 
