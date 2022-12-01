@@ -123,10 +123,10 @@ namespace ProjectTest.Services
         {
             try
             {
-                if ((forgotPassWordModel.PassWordNew != "" || forgotPassWordModel.PassWordNew != null) 
+                if ((forgotPassWordModel.NewPassWord != "" || forgotPassWordModel.NewPassWord != null) 
                     && (forgotPassWordModel.ConfirmPassWord != "" || forgotPassWordModel.ConfirmPassWord != null) 
                     && (forgotPassWordModel.OTP != "" || forgotPassWordModel.OTP != null)
-                    && (forgotPassWordModel.PassWordNew == forgotPassWordModel.ConfirmPassWord))
+                    && (forgotPassWordModel.NewPassWord == forgotPassWordModel.ConfirmPassWord))
                 {
                     var checkOTP = new checkOTPModel()
                     {
@@ -139,7 +139,7 @@ namespace ProjectTest.Services
                         _logger.LogError("Mã OTP này không khả dụng");
                         Result = new ResultModel()
                         {
-                            Message = "Not Found",
+                            Message = "Mã OTP này không khả dụng",
                             Code = 404,
                         };
                         return Result;
@@ -148,15 +148,15 @@ namespace ProjectTest.Services
                     string hashedPassword = "";
                     if (forgotPassWordModel != null)
                     {
-                        var pass = forgotPassWordModel.PassWordNew;
+                        var pass = forgotPassWordModel.NewPassWord;
                         salt = Crypto.GenerateSalt();
-                        var password = forgotPassWordModel.PassWordNew + salt;
+                        var password = forgotPassWordModel.NewPassWord + salt;
                         hashedPassword = Crypto.HashPassword(password);
                     }
                     ChangePassWordModel us = new ChangePassWordModel()
                     {
                         Email = forgotPassWordModel.Email,
-                        PassWordNew = hashedPassword,
+                        NewPassWord = hashedPassword,
                         SaltKey = salt,
                     };
                     var rs = await userRepo.ForgotPassWordUs(us);

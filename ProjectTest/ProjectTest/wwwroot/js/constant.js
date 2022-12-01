@@ -3,6 +3,19 @@
 var apiConfig = {
     "api": {
         "host_user_service": hostApi.host_user_service,
+        "login": {
+            "controller": "",
+            "action": {
+                "sendotp": {
+                    "method": "POST",
+                    "path": "/SendOTP"
+                },
+                "forgotpassword": {
+                    "method": "POST",
+                    "path": "/ForgotPassWord"
+                }
+            }
+        },
         "user": {
             "controller": "/api/User",
             "action": {

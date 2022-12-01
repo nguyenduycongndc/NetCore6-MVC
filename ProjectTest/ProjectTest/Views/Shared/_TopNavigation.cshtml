@@ -22,7 +22,7 @@
                     <span class="user-name">@currentuser.FullName</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                    <a class="dropdown-item" href="javascript:void(0)" onclick="openModal()"><i class="fa fa-pencil-square"></i>Thay đổi mật khẩu1111</a>
+                    <a class="dropdown-item" href="javascript:void(0)" onclick="openModal()"><i class="fa fa-pencil-square"></i>Thay đổi mật khẩu</a>
                     <a class="dropdown-item" href="javascript:void(0)" onclick="logout()"><i class="dw dw-logout"></i>Thoát</a>
                 </div>
             </div>
@@ -52,9 +52,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="PassWordNew" class="col-sm-3 col-form-label">Mật khẩu mới<span class="text-danger">*</span></label>
+                        <label for="NewPassWord" class="col-sm-3 col-form-label">Mật khẩu mới<span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control required" id="PassWordNew" aria-label="PassWordNew" aria-describedby="basic-addon1" onkeypress='validateSLEdit(event)'>
+                            <input type="password" class="form-control required" id="NewPassWord" aria-label="NewPassWord" aria-describedby="basic-addon1" onkeypress='validateSLEdit(event)'>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -102,22 +102,22 @@
         var obj = {
             'Id': @currentuser.Id,
             'PassWordOld': $('#PassWordOld').val().trim(),
-            'PassWordNew': $('#PassWordNew').val().trim(),
+            'NewPassWord': $('#NewPassWord').val().trim(),
             'ConfirmPassWordNew': $('#ConfirmPassWordNew').val().trim(),
         }
         if (validateRequired('#formChangePassWord')) {
-            if ($("#PassWordNew").val().length < 6 || $("#ConfirmPassWordNew").val().length < 6) {
+            if ($("#NewPassWord").val().length < 6 || $("#ConfirmPassWordNew").val().length < 6) {
                 toastr.error("Mật khẩu ít nhất 6 ký tự");
                 return false;
-            } else if ($("#PassWordNew").val() != $("#ConfirmPassWordNew").val()) {
+            } else if ($("#NewPassWord").val() != $("#ConfirmPassWordNew").val()) {
                 toastr.error("Xác nhận mật khẩu không đúng");
                 return false;
             }
-        callApi_userservice(
-            apiConfig.api.user.controller,
-            apiConfig.api.user.action.changepassword.path,
-            apiConfig.api.user.action.changepassword.method,
-            obj, 'changePassWordSuccess', 'msgError');
+            callApi_userservice(
+                apiConfig.api.user.controller,
+                apiConfig.api.user.action.changepassword.path,
+                apiConfig.api.user.action.changepassword.method,
+                obj, 'changePassWordSuccess', 'msgError');
         }
     }
 
@@ -130,10 +130,10 @@
             toastr.error("Thay đổi mật khẩu thất bại");
         }
     }
-        function openModal() {
-            $('#modalChangePassWord').modal('show');
-            clearMsgInvalid();
-            $('#PrivateKey').val("");
-            $('#AddressWallet').val("");
-        }
+    function openModal() {
+        $('#modalChangePassWord').modal('show');
+        clearMsgInvalid();
+        $('#PrivateKey').val("");
+        $('#AddressWallet').val("");
+    }
 </script>

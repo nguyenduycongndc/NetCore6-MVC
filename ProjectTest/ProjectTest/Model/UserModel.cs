@@ -100,13 +100,13 @@ namespace ProjectTest.Model
     {
         public string Email { get; set; }
         public string OTP { get; set; }
-        public string PassWordNew { get; set; }
+        public string NewPassWord { get; set; }
         public string ConfirmPassWord { get; set; }
     }
     public class ChangePassWordModel
     {
         public string Email { get; set; }
-        public string PassWordNew { get; set; }
+        public string NewPassWord { get; set; }
         public string SaltKey { get; set; }
     }
     public class EmailModel

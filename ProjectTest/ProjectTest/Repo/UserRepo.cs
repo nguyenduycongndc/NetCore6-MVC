@@ -289,7 +289,7 @@ namespace ProjectTest.Repo
                 List<SqlParameter> parms = new List<SqlParameter>
                 {
                     new SqlParameter { ParameterName = "@email", Value = changePassWordModel.Email },
-                    new SqlParameter { ParameterName = "@password", Value = changePassWordModel.PassWordNew },
+                    new SqlParameter { ParameterName = "@password", Value = changePassWordModel.NewPassWord },
                     new SqlParameter { ParameterName = "@salt", Value = changePassWordModel.SaltKey },
                 };
 

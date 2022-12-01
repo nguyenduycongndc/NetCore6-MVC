@@ -2,6 +2,10 @@
     Layout = "_LayoutLogin";
 
 }
+<script src="~/js/host.js" type="text/javascript" asp-append-version="true"></script>
+<script src="~/js/api.js" type="text/javascript" asp-append-version="true"></script>
+<script src="~/js/common.js" type="text/javascript" asp-append-version="true"></script>
+<script src="~/js/constant.js" type="text/javascript" asp-append-version="true"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +27,6 @@
     <link rel="stylesheet" type="text/css" href="vendors/styles/core.css">
     <link rel="stylesheet" type="text/css" href="vendors/styles/icon-font.min.css">
     <link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
-
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
     <script>
@@ -45,7 +48,7 @@
                     <div class="login-title">
                         <h2 class="text-center text-primary">Login To DeskApp</h2>
                     </div>
-                    <form>
+                    <form id="formLogin" class="form-valide" action="#" method="post" style="margin-top: 20px;">
                         <div class="select-role">
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn active">
@@ -63,13 +66,13 @@
                             </div>
                         </div>
                         <div class="input-group custom">
-                            <input id="UserName" type="text" class="form-control form-control-lg" placeholder="Username">
+                            <input id="UserName" type="text" class="form-control required form-control-lg" placeholder="Username">
                             <div class="input-group-append custom">
                                 <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
                             </div>
                         </div>
                         <div class="input-group custom">
-                            <input id="Password" type="password" class="form-control form-control-lg" placeholder="**********">
+                            <input id="Password" type="password" class="form-control required form-control-lg" placeholder="**********">
                             <div class="input-group-append custom">
                                 <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
                             </div>
@@ -82,7 +85,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="forgot-password"><a href="forgot-password.html">Forgot Password</a></div>
+                                <div class="forgot-password"><a onclick="openModalForgotPassword()">Forgot Password</a></div>
                             </div>
                         </div>
                         <div class="row">
@@ -107,33 +110,74 @@
     <script src="vendors/scripts/process.js"></script>
     <script src="vendors/scripts/layout-settings.js"></script>*@
 </body>
-</html>
-<!--
-<div class="container-fluid">
-    <div class=" col-md-4 col-sm-8 col-10 offset-md-4 offset-sm-2 offset-1 radius-form bg-white mb-5 " style="background: radial-gradient(circle, var(--indigo) 0%, rgb(232 62 140 / 32%) 100%); border-radius: 25px;">
-        <div class="row mt-5">
-            <h2 class="col-md-12 col-sm-12 col-12 mt-3" style="text-align:center">Đăng Nhập</h2>
+
+<div id="preloaderlogin" style="display: none; z-index: 1; position: absolute; background-color: rgba(0, 0, 0, 0.5); inset: 0px; ">
+    <div class="loadspin" style="position: absolute; width: 5rem; height: 10rem; top: 50%; margin: 0 auto; left: 0; right: 0; ">
+        <div class="spinner-border" role="status">
         </div>
-@*Tài khoản*@
-        <div class="input-icons mt-4" id="input-container">
-            <input type="text" class="form-control inputLogin mb-4" style="border-radius:30px" id="UserName" placeholder="Tài khoản" name="" />
-            <i class="fa fa-user absolute-icon-calendar"></i>
-        </div>
-@*Mật khẩu*@
-        <div class="input-icons" id="input-container">
-            <input type="password" class="form-control inputLogin mb-4" style="border-radius:30px" @*onchange="SubmitLogin();"*@ placeholder="Mật khẩu" id="Password" />
-            <i class="fa fa-unlock absolute-icon-calendar "></i>
-        </div>
-@*Nút đăng nhập*@
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-12 mt-2 mb-3">
-                <button class="btn btn-block btnLogin btn btn-primary" id="btnLogin" @*onclick="Login()"*@>Đăng nhập</button>
+    </div>
+</div>
+<div class="modal hide fade" id="modalForgotPassword" role="dialog" aria-labelledby="modalForgotPasswordLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalForgotPassword">Forgot Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formSendOTP" class="form-valide" action="#" method="post" style="margin-top: 20px;">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="Email">
+                            Email<span class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control required" id="Email" aria-label="ConfirmPassWordNew" aria-describedby="basic-addon1" @*onkeypress='validateSLEdit(event)'*@>
+                        </div>
+                    </div>
+                </form>
+                <form id="formForgotPassword" class="form-valide" action="#" method="post" style="margin-top: 20px;">
+                    <div style="padding: 15px 0px;">
+                        <div class="btnSendOTP">
+                            <a href="javascript:void(0);" onclick="SendOTP()" class="btn btn-info" @* data-toggle="collapse" data-target="#collapseForgotPassword" aria-expanded="true" aria-controls="collapseForgotPassword"*@>
+                                <i class="fa fa-paper-plane" aria-hidden="true">&nbsp;SendOTP</i>
+                            </a>
+                        </div>
+
+                        <div class="collapse" id="collapseForgotPassword" style="margin-top:5px">
+                            <div class="form-group row">
+                                <label for="OTP" class="col-sm-3 col-form-label">OTP<span class="text-danger">*</span></label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control required" id="OTP" aria-label="OTP" aria-describedby="basic-addon1" @*onkeypress='validateSLEdit(event)'*@>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="NewPassWord" class="col-sm-3 col-form-label">New Password<span class="text-danger">*</span></label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control required" id="NewPassWord" aria-label="NewPassWord" aria-describedby="basic-addon1" @*onkeypress='validateSLEdit(event)'*@>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label" for="ConfirmPassWord">
+                                    Confirm Password<span class="text-danger">*</span>
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control required" id="ConfirmPassWord" aria-label="ConfirmPassWord" aria-describedby="basic-addon1" @*onkeypress='validateSLEdit(event)'*@>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button href="javascript:void(0);" id="submit" class="btn btn-info" onclick="ForgotPassword()">ForgotPassword</button>
+                <button href="javascript:void(0);" class="btn btn-dark" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
 </div>
-<script src="~/js/common.js" type="text/javascript" asp-append-version="true"></script>
- -->
+</html>
 <script>
     $("#btnLogin").click(function () {
         localStorage.clear();
@@ -142,10 +186,10 @@
         SubmitLogin();
     });
     function showLoading() {
-        $('#preloader').css('display', 'block');
+        $('#preloaderlogin').css('display', 'block');
     }
     function hideLoading() {
-        $('#preloader').css('display', 'none');
+        $('#preloaderlogin').css('display', 'none');
     }
     function SubmitLogin() {
         var formdata;
@@ -153,33 +197,101 @@
             'UserName': $('#UserName').val(),
             'Password': $('#Password').val(),
         }
-
-        $.ajax({
-            url: 'LoginUser',
-            type: 'POST',
-            dataType: 'json',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(formdata),
-            success: function (result) {
-
-                if (!result) {
-                    swal("Thông báo!", "Tài khoản/Mật khẩu chưa đúng!", "warning");
+        hideLoading();
+        if (validateRequired('#formLogin')) {
+            $.ajax({
+                url: 'LoginUser',
+                type: 'POST',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formdata),
+                success: function (result) {
+                    if (result.code != 200) {
+                        toastr.error(result.message);
+                    } else {
+                        sessionStorage['SessionToken'] = result.token;
+                        //sessionStorage['UserName'] = result.userName;
+                        hideLoading();
+                        window.location.href = "/Home";
+                        //HomeData();
+                    }
+                },
+                error: function (ex) {
                     hideLoading();
-                } else {
-                    sessionStorage['SessionToken'] = result.token;
-                    //sessionStorage['UserName'] = result.userName;
-                    hideLoading();
-                    window.location.href = "/Home";
-                    //window.location.href = "api/User";
-                    //HomeData();
+                    toastr.error(result.message);
                 }
-            },
-            error: function (ex) {
-                /*AlertLogin(ex.responseText);*/
-                //console.error('Error:', error);
-                swal("Thông báo!", "Tài khoản/Mật khẩu chưa đúng!", "warning");
-                hideLoading();
-            }
-        });
+            });
+        }
     };
+    $("[data-dismiss=modal]").click(function () {
+        $(".modal").modal('hide');
+    });
+
+    function openModalForgotPassword() {
+        $('#modalForgotPassword').modal('show');
+        $('#collapseForgotPassword').collapse('hide');
+        $('#submit').attr('disabled', 'disabled');
+        clearMsgInvalid();
+        $('#Email').val("");
+        $('#OTP').val("");
+        $('#NewPassWord').val("");
+        $('#ConfirmPassWord').val("");
+        hideLoading();
+    };
+    function SendOTP() {
+        var email = $('#Email').val().trim();
+        if (validateRequired('#formSendOTP')) {
+            showLoading();
+            callApi_userservice(
+                apiConfig.api.login.controller,
+                apiConfig.api.login.action.sendotp.path + "?email=" + email,
+                apiConfig.api.login.action.sendotp.method,
+                null, 'notificationSuccess', 'msgError');
+        }
+    }
+    function notificationSuccess(data) {
+        hideLoading();
+        if (data.data == true) {
+            $('#collapseForgotPassword').collapse('show');
+            $('#submit').removeAttr('disabled');
+            toastr.info("Vui lòng check email");
+        }
+        else {
+            toastr.error("Vui lòng kiểm tra lại email");
+        }
+
+    }
+    function ForgotPassword() {
+        var obj = {
+            'Email': $('#Email').val().trim(),
+            'OTP': $('#OTP').val().trim(),
+            'NewPassWord': $('#NewPassWord').val().trim(),
+            'ConfirmPassWord': $('#ConfirmPassWord').val().trim(),
+        }
+        if (validateRequired('#formForgotPassword')) {
+            showLoading();
+            if ($("#NewPassWord").val().length < 6 || $("#ConfirmPassWord").val().length < 6) {
+                toastr.error("Mật khẩu ít nhất 6 ký tự");
+                return false;
+            } else if ($("#NewPassWord").val() != $("#ConfirmPassWord").val()) {
+                toastr.error("Xác nhận mật khẩu không đúng");
+                return false;
+            }
+            callApi_userservice(
+                apiConfig.api.login.controller,
+                apiConfig.api.login.action.forgotpassword.path,
+                apiConfig.api.login.action.forgotpassword.method,
+                obj, 'changePassWordSuccess', 'msgError');
+        }
+    }
+    function changePassWordSuccess(data) {
+        hideLoading();
+        if (data.data == true) {
+            toastr.success(data.message == 'Ok' ? "Thay đổi mật khẩu thành công" : data.message);
+            $('#modalForgotPassword').modal('hide');
+        }
+        else {
+            toastr.error(data.message);
+        }
+    }
 </script>

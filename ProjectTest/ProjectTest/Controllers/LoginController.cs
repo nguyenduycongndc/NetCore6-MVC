@@ -19,8 +19,8 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 namespace ProjectTest.Controllers
 {
     //[Route("api/[controller]")]
-    //[Route("[controller]")]
     //[ApiController]
+    //[Route("[controller]")]
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
@@ -105,7 +105,7 @@ namespace ProjectTest.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("ForgotPassWord")]
-        public async Task<ResultModel> ForgotPassWord(ForgotPassWordModel forgotPassWordModel)
+        public async Task<ResultModel> ForgotPassWord([FromBody] ForgotPassWordModel forgotPassWordModel)
         {
             try
             {
@@ -124,8 +124,9 @@ namespace ProjectTest.Controllers
                 {
                     var data = new ResultModel()
                     {
-                        Message = "Not Found",
-                        Code = 404,
+                        Data = sendMailRs.Data,
+                        Message = sendMailRs.Message,
+                        Code = sendMailRs.Code,
                     };
                     return data;
                 }

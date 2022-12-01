@@ -109,7 +109,7 @@ function openView(type, value) {
 }
 
 function fnSearchSuccess(rspn) {
-    //showLoading();
+    showLoading();
     if (rspn !== undefined && rspn !== null && rspn.data.length > 0) {
         var tbBody = $('#userTypeTable tbody');
         $("#userTypeTable").dataTable().fnDestroy();
