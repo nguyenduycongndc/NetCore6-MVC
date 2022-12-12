@@ -16,6 +16,7 @@ builder.Services.AddScoped<IUserService, UserServices>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ISendMailService, SendMailService>();
 builder.Services.AddScoped<IDataEmailRepo, DataEmailRepo>();
+builder.Services.AddScoped<IEmailRepo, EmailRepo>();
 
 builder.Services.AddSingleton<IWorker, Worker>();
 builder.Services.AddHostedService<DerivedBackgroundPrinter>();

@@ -91,7 +91,43 @@ var apiConfig = {
                     "path": "/Detail"
                 }
             }
-        }
+        },
+        "sendmail": {
+            "controller": "/api/SendMail",
+            "action": {
+                "searchemail": {
+                    "method": "POST",
+                    "path": "/SearchEmail"
+                },
+                "getItem": {
+                    "method": "GET",
+                    "path": "/DetailEmail"
+                },
+                "addEmail": {
+                    //function support to add item
+                    "method": "POST",
+                    "path": "/CreateEmail"
+                },
+                "deleteEmail": {
+                    //function support to delete item
+                    "method": "DELETE",
+                    "path": "/DeleteEmail"
+                },
+                "updateEmail": {
+                    //function support to update item
+                    "method": "PUT",
+                    "path": "/UpdateEmail"
+                },
+                "exportsampleexcel": {
+                    "method": "GET",
+                    "path": "/ExportSampleExcel"
+                },
+                "exportexcel": {
+                    "method": "GET",
+                    "path": "/ExportExcel"
+                }
+            }
+        },
     },
 };
 

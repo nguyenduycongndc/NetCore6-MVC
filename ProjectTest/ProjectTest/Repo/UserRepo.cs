@@ -133,10 +133,10 @@ namespace ProjectTest.Repo
             return list;
         }
 
-        public List<Users> CheckEmail(string email)
+        public List<Users> CheckEmailUser(string email)
         {
             List<Users> list;
-            string sql = "EXECUTE SP_CHECK_EMAIL @email";
+            string sql = "EXECUTE SP_CHECK_EMAIL_USER @email";
 
 
             List<SqlParameter> parms = new List<SqlParameter>

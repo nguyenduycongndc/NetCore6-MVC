@@ -36,6 +36,10 @@ namespace ProjectTest.Migrations
                         .HasColumnType("nvarchar(3000)")
                         .HasColumnName("body");
 
+                    b.Property<int>("CheckAuto")
+                        .HasColumnType("int")
+                        .HasColumnName("check_auto");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("created_at");
@@ -52,6 +56,40 @@ namespace ProjectTest.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("data_email");
+                });
+
+            modelBuilder.Entity("ProjectTest.Data.Email", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CC")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("cc");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("email_address");
+
+                    b.Property<int?>("IsDeleted")
+                        .HasColumnType("int")
+                        .HasColumnName("is_deleted");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("email");
                 });
 
             modelBuilder.Entity("ProjectTest.Data.Roles", b =>

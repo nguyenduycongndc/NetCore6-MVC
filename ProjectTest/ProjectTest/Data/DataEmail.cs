@@ -30,5 +30,9 @@ namespace ProjectTest.Data
         [Column("created_at")]
         [JsonPropertyName("created_at")]
         public DateTime? CreatedAt { get; set; }
+
+        [Column("check_auto")]
+        [JsonPropertyName("check_auto")]
+        public int CheckAuto { get; set; }
     }
 }

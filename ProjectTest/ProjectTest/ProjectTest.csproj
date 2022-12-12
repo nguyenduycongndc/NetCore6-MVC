@@ -7,9 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\FileExcelEmail.xlsx" />
+    <Content Remove="wwwroot\SampleFile.xlsx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="wwwroot\FileExcelEmail.xlsx" />
+    <None Include="wwwroot\SampleFile.xlsx" />
   </ItemGroup>
 
   <ItemGroup>

@@ -203,12 +203,12 @@ namespace ProjectTest.Services
         {
             try
             {
-                var checkEmail = new List<Users>();
+                var checkEmailUser = new List<Users>();
                 var checkUser = userRepo.GetDetail(updateModel.Id);
                 if (string.IsNullOrEmpty(updateModel.Email) && updateModel.Email != checkUser[0].Email)
                 {
-                    checkEmail = userRepo.CheckEmail(updateModel.Email);
-                    if (checkEmail.Count() != 0)
+                    checkEmailUser = userRepo.CheckEmailUser(updateModel.Email);
+                    if (checkEmailUser.Count() != 0)
                     {
                         _logger.LogError("Email này đã được sử dụng");
                         Result = new ResultModel()

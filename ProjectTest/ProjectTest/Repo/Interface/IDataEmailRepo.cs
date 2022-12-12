@@ -5,5 +5,6 @@ namespace ProjectTest.Repo.Interface
     public interface IDataEmailRepo
     {
         DataEmail CheckDataEmail();
+        DataEmail CheckDataEmailAuto();
     }
 }

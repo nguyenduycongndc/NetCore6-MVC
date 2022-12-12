@@ -23,7 +23,7 @@ namespace ProjectTest.Tool.ServicesTool
                 var dataMailRepo = scope.ServiceProvider.GetService<IDataEmailRepo>();
                 var userRepo = scope.ServiceProvider.GetService<IUserRepo>();
                 var allEmail = userRepo.CheckAllEmail();
-                var dataEmail = dataMailRepo.CheckDataEmail();
+                var dataEmail = dataMailRepo.CheckDataEmailAuto();
                 try
                 {
                     if ((allEmail!= null ? allEmail.Count() > 0 : allEmail!= null) && dataEmail != null)

@@ -1,10 +1,13 @@
-﻿using ProjectTest.Model;
+﻿using ProjectTest.Common;
+using ProjectTest.Model;
 using ProjectTest.Repo;
 using ProjectTest.Repo.Interface;
 using ProjectTest.Services.Interface;
 using System;
+using System.Diagnostics.Metrics;
 using System.Net;
 using System.Net.Mail;
+using System.Web.Helpers;
 
 namespace ProjectTest.Services
 {
@@ -13,51 +16,52 @@ namespace ProjectTest.Services
         private readonly ILogger<SendMailService> _logger;
         private readonly IConfiguration _configuration;
         private readonly IUserRepo _userRepo;
+        private readonly IEmailRepo _emailRepo;
+        private ResultModel Result;
 
-        public SendMailService(IConfiguration configuration, ILogger<SendMailService> logger, IUserRepo userRepo)
+        public SendMailService(IConfiguration configuration, ILogger<SendMailService> logger, IUserRepo userRepo, IEmailRepo emailRepo)
         {
             _logger = logger;
             _configuration = configuration;
             _userRepo = userRepo;
+            _emailRepo = emailRepo;
         }
         public Task<bool> SendMailAsync(EmailDto emailDto)
         {
             try
             {
-                string[] words = emailDto.To.Split(", ");
+                string[] listEmail = emailDto.To.Split(", ");
                 var smtpClient = new SmtpClient(_configuration.GetSection("EmailHost").Value)
                 {
                     Port = 587,
                     Credentials = new NetworkCredential(_configuration.GetSection("EmailUsername").Value, _configuration.GetSection("EmailPassword").Value),
                     EnableSsl = true,
                 };
-                if (words.Length > 1)
+                if (listEmail.Length > 1)
                 {
-                    for (int i = 0; i < words.Length; i++)
+                    for (int i = 0; i < listEmail.Length; i++)
                     {
+                        var AddressEmailTo = listEmail[i].Split("-");
                         MailMessage mailMessage = new MailMessage();
                         mailMessage.Subject = emailDto.Subject;
                         mailMessage.Body = emailDto.Body;
                         mailMessage.From = new MailAddress(_configuration.GetSection("EmailUsername").Value);
-                        mailMessage.To.Add(new MailAddress(words[i]));
+                        mailMessage.To.Add(new MailAddress(AddressEmailTo[0]));
+                        mailMessage.CC.Add(new MailAddress(AddressEmailTo[1]));
                         mailMessage.IsBodyHtml = true;
                         smtpClient.Send(mailMessage);
                     }
                 }
                 else
                 {
+                    var AddressEmailTo = emailDto.To.Split("-");
                     MailMessage mailMessage = new MailMessage();
                     mailMessage.Subject = emailDto.Subject;
                     mailMessage.Body = emailDto.Body;
                     mailMessage.From = new MailAddress(_configuration.GetSection("EmailUsername").Value);
-                    mailMessage.To.Add(new MailAddress(emailDto.To));
+                    mailMessage.To.Add(new MailAddress(AddressEmailTo[0]));
+                    mailMessage.CC.Add(new MailAddress(AddressEmailTo[1]));
                     mailMessage.IsBodyHtml = true;
-                    //var smtpClient = new SmtpClient(_configuration.GetSection("EmailHost").Value)
-                    //{
-                    //    Port = 587,
-                    //    Credentials = new NetworkCredential(_configuration.GetSection("EmailUsername").Value, _configuration.GetSection("EmailPassword").Value),
-                    //    EnableSsl = true,
-                    //};
                     smtpClient.Send(mailMessage);
                 }
                 return Task.FromResult(true);
@@ -77,7 +81,7 @@ namespace ProjectTest.Services
                 OTP = rand.Next(0, 1000000).ToString("D6");
                 var datenow = DateTime.Now;
                 var expdate = datenow.AddMinutes(2);
-                var rs = _userRepo.CheckEmail(email);
+                var rs = _userRepo.CheckEmailUser(email);
                 if (rs.Count == 0)
                 {
                     return false;
@@ -112,6 +116,111 @@ namespace ProjectTest.Services
             {
                 return false;
                 throw;
+            }
+        }
+        public async Task<ResultModel> GetAllEmailService(EmailSearchModel emailSearchModel)
+        {
+            try
+            {
+                var qr = await _emailRepo.GetAllEmail(emailSearchModel);
+                var listData =  qr.Select(x => new EmailDataModel()
+                {
+                    Id = x.Id,
+                    email_address = x.EmailAddress,
+                    cc = x.CC,
+                    create_at = x.CreatedAt.HasValue ? x.CreatedAt.Value.ToString("dd/MM/yyyy") : null,
+                }).OrderBy(x => x.Id).ToList();
+                var data = new ResultModel()
+                {
+                    Data = listData,
+                    Message = "Successfull",
+                    Code = 200,
+                    Count = listData.Count(),
+                };
+                return data;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<ResultModel> CreateEmailS(CreateEmailModel creaetEmailModel)
+        {
+            try
+            {
+                var checkEmail = _emailRepo.CheckEmail(creaetEmailModel.email_address);
+                if (checkEmail.Count() > 0)
+                {
+                    _logger.LogError("Email này đã có trong hệ thống");
+                    Result = new ResultModel()
+                    {
+                        Message = "Email này đã có trong hệ thống",
+                        Code = 404,
+                    };
+                    return Result;
+                }
+                if (creaetEmailModel.email_address == "" || creaetEmailModel.email_address == null)
+                {
+                    Result = new ResultModel()
+                    {
+                        Message = "Bad Request",
+                        Code = 400,
+                    };
+                    return Result;
+                }
+
+                EmailCrModel Em = new EmailCrModel()
+                {
+                    email_address = creaetEmailModel.email_address,
+                    cc = creaetEmailModel.cc,
+                };
+                var rs = await _emailRepo.CreateEmailR(Em);
+                Result = new ResultModel()
+                {
+                    Data = rs,
+                    Message = (rs == true ? "OK" : "Bad Request"),
+                    Code = (rs == true ? 200 : 400),
+                };
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+        public ResultModel GetDetailEmailModels(int Id)
+        {
+            try
+            {
+                var rs = _emailRepo.GetDetailEmailR(Id);
+                if (rs.Count == 0)
+                {
+                    return Result;
+                }
+                else
+                {
+                    var detailUs = new EmailDeModel()
+                    {
+                        Id = rs[0].Id,
+                        email_address = rs[0].EmailAddress,
+                        cc = rs[0].CC,
+                    };
+
+                    Result = new ResultModel()
+                    {
+                        Data = detailUs,
+                        Message = "OK"/*"Successfull"*/,
+                        Code = 200,
+                    };
+
+                    return Result;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
             }
         }
     }

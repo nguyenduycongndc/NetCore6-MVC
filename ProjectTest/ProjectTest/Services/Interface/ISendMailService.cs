@@ -1,9 +1,13 @@
-﻿using ProjectTest.Model;
+﻿using ProjectTest.Common;
+using ProjectTest.Model;
 namespace ProjectTest.Services.Interface
 {
     public interface ISendMailService
     {
         Task<bool> SendMailAsync(EmailDto emailDto);
         bool SendMailOTPAsync(string Email);
+        Task<ResultModel> GetAllEmailService(EmailSearchModel emailSearchModel);
+        public Task<ResultModel> CreateEmailS(CreateEmailModel createEmailModel);
+        public ResultModel GetDetailEmailModels(int id);
     }
 }
