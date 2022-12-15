@@ -18,7 +18,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[SP_UPDATE_USER] 
+ALTER PROCEDURE [dbo].[SP_UPDATE_USER] 
 	-- Add the parameters for the stored procedure here
 	@id int, 
 	@full_name nvarchar(Max), 
@@ -31,7 +31,7 @@ BEGIN
 	-- interfering with SELECT statements.
 	declare @Result bit;
 	SET NOCOUNT ON;
-	If exists (SELECT * FROM users WHERE id = @id and (is_deleted <> 1 or is_deleted is null))
+	If exists (SELECT * FROM users WHERE id = @id and is_deleted <> 1)
     -- Insert statements for procedure here
 	BEGIN
 			UPDATE users
@@ -42,7 +42,7 @@ BEGIN
 						users.modified_at = GETDATE(),
 						users.modified_by = @modified_by
 					from users 
-					WHERE users.id = @id and (is_deleted <> 1 or is_deleted is null)
+					WHERE users.id = @id and is_deleted <> 1
 			BEGIN
 				set @Result = 1;
 				select @Result as Rs

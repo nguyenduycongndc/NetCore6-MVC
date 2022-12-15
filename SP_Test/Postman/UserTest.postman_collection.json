@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "383d043d-65f6-4896-adb3-34e6e6370f38",
+		"name": "UserTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "LoginUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userName\": \"Test21\",\r\n  \"passWord\": \"123123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7114/api/Login/LoginUser",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7114",
+					"path": [
+						"api",
+						"Login",
+						"LoginUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdDIxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMSIsIm5iZiI6MTY2NjA2Nzc1NiwiZXhwIjoxNjY2MTU0MTU2LCJpc3MiOiJodHRwOi8vOjo4MCIsImF1ZCI6Imh0dHA6Ly86OjgwIn0.zXhc-rCN07S4vwBDKCQPo_Hc14erjEcAu8v_UXDLDaex_FZ2EAZQ5RyOG3aBetTv1xMLyIrfQVQeixbThOduuA",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userName\": \"Test23\",\r\n  \"password\": \"123456\",\r\n  \"roleId\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7114/api/User/Create",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7114",
+					"path": [
+						"api",
+						"User",
+						"Create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdDIxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMSIsIm5iZiI6MTY2NjA2Nzc1NiwiZXhwIjoxNjY2MTU0MTU2LCJpc3MiOiJodHRwOi8vOjo4MCIsImF1ZCI6Imh0dHA6Ly86OjgwIn0.zXhc-rCN07S4vwBDKCQPo_Hc14erjEcAu8v_UXDLDaex_FZ2EAZQ5RyOG3aBetTv1xMLyIrfQVQeixbThOduuA",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user_name\": \"\",\r\n  \"is_active\": -1,\r\n  \"start_number\": 1,\r\n  \"page_size\": 20\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7114/api/User/Search",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7114",
+					"path": [
+						"api",
+						"User",
+						"Search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detail",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdDIxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMSIsIm5iZiI6MTY2NjA2MjEwMiwiZXhwIjoxNjY2MTQ4NTAyLCJpc3MiOiJodHRwOi8vOjo4MCIsImF1ZCI6Imh0dHA6Ly86OjgwIn0.dhn7F5gBzTZlbFq-zoEBOeqybiKuAavfL_6ysUNxnGG-Z4DmN2CmdyUAIqwEXofGGY7x4-fT0H-8augDNYrmMQ",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:7114/api/User/Detail?id=10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7114",
+					"path": [
+						"api",
+						"User",
+						"Detail"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdDIxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMSIsIm5iZiI6MTY2NjA3NTg5NCwiZXhwIjoxNjY2MTYyMjk0LCJpc3MiOiJodHRwOi8vOjo4MCIsImF1ZCI6Imh0dHA6Ly86OjgwIn0.yTJRpZzkPpjxg5cajB9Bn43GqpR2ceuGBIa-3bqnuZ-Rd3BpTG9yNDIUp_0XoVhoYMJo148IYYHt3GJoaX9Bww",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Id\": 2,\r\n  \"Email\": \"Test12@gmail.com\",\r\n  \"IsActive\": 1,\r\n  \"FullName\": \"Test12234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7114/api/User/Update",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7114",
+					"path": [
+						"api",
+						"User",
+						"Update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdDIxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMSIsIm5iZiI6MTY2NjU4MzAzNSwiZXhwIjoxNjY2NjY5NDM1LCJpc3MiOiJodHRwOi8vOjo4MCIsImF1ZCI6Imh0dHA6Ly86OjgwIn0.mMaxd8KK2mWJKLv1ZzyyHEMZz2tVWxgukCv6xvnp2_c7VVk968CFc3JBRNg8jqZo-cOht_0OPXeZPECP7HVVAQ",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7114/api/User/Delete?id=2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7114",
+					"path": [
+						"api",
+						"User",
+						"Delete"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SendMail",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVGVzdDIxIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxMCIsIm5iZiI6MTY2Njc0OTU0OSwiZXhwIjoxNjY2ODM1OTQ5LCJpc3MiOiJodHRwOi8vOjo4MCIsImF1ZCI6Imh0dHA6Ly86OjgwIn0.FnXjUCNAhoq3UX-z_lRBtJMoueSKMPMQdSCIi3m-4L3sXKfW3v9iipOWbRGwIMS8huhYP7eD-wBlBg-Y94IGDg",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"to\": \"mrfix1407@gmail.com, mrfishhotro@gmail.com\",\r\n  \"subject\": \"Testmail\",\r\n  \"body\": \"Body Email\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7114/api/SendMail/SendMail",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7114",
+					"path": [
+						"api",
+						"SendMail",
+						"SendMail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ForgotPassWord",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"mrfix1407@gmail.com\",\r\n  \"otp\": \"609813\",\r\n  \"passWordNew\": \"123456\",\r\n  \"confirmPassWord\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7114/api/Login/ForgotPassWord",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7114",
+					"path": [
+						"api",
+						"Login",
+						"ForgotPassWord"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SendOTP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7114/api/Login/SendOTP?email=mrfix1407@gmail.com",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7114",
+					"path": [
+						"api",
+						"Login",
+						"SendOTP"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "mrfix1407@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

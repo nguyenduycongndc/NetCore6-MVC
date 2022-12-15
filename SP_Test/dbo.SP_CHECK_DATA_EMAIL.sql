@@ -27,6 +27,6 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT * from [dbo].[data_email] as DE where DE.check_auto = 0
+	SELECT * from [dbo].[data_email] as DE 
 END
 GO

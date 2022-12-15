@@ -20,7 +20,7 @@ GO
 -- =============================================
 CREATE PROCEDURE [dbo].[SP_CHECK_EMAIL] 
 	-- Add the parameters for the stored procedure here
-	@email_address nvarchar(MAX)
+	@email nvarchar(MAX)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -28,7 +28,7 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT * from [dbo].[email] as E 
-	where E.email_address = @email_address and ISNULL (E.is_deleted,0) <> 1
+	SELECT * from [dbo].[users] as U 
+	where U.email = @email and U.is_active = 1
 END
 GO

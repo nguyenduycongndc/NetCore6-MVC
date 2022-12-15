@@ -1,3 +1,6 @@
+USE [DB_TEST]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_CHECK_ROLES]    Script Date: 2022/10/18 8:53:09 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -7,7 +10,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[SP_CHECK_ROLES] 
+ALTER PROCEDURE [dbo].[SP_CHECK_ROLES] 
 	-- Add the parameters for the stored procedure here
 	@role_id int
 AS
@@ -20,4 +23,3 @@ BEGIN
 	SELECT * from [dbo].[roles] as R 
 	where R.id = @role_id and R.is_active = 1
 END
-GO
