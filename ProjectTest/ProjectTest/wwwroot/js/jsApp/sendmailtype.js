@@ -17,30 +17,30 @@
         $('#CCCreate').val(""),
         localStorage.setItem("type", "1");
         index.hide();
-        detail.hide();
+        //detail.hide();
         create.show();
         //document.getElementById("userNameCreate").focus();
         edit.hide();
         //document.getElementById("formCreate").reset();
         //$("#frmHeaderCreate").val(frmHeaderCreate);
     }
-    else if (type === 2) {
+    else if (type === 2 || type === 3) {
         index.hide();
         create.hide();
-        edit.hide();
-        detail.show();
+        edit.show();
+        //detail.show();
 
         fnGetDetail(type, value);
     }
-    else if (type === 3) {
-        clearMsgInvalid();
-        index.hide();
-        create.hide();
-        detail.hide();
-        edit.show();
-        //document.getElementById("userNameEdit").focus();
-        fnGetDetail(type, value);
-    }
+    //else if (type === 3) {
+    //    clearMsgInvalid();
+    //    index.hide();
+    //    create.hide();
+    //    //detail.hide();
+    //    edit.show();
+    //    //document.getElementById("userNameEdit").focus();
+    //    fnGetDetail(type, value);
+    //}
 }
 
 function fnSearchDataSuccess(rspn) {
@@ -241,25 +241,27 @@ function submitCreate() {
     }
 }
 
-//function submitEdit() {
-//    var obj = {
-//        'Id': parseInt($('#IdEdit').val()),
-//        'IsActive': $('#isActiveEdit').val(),
-//        'FullName': $('#NameEdit').val().trim(),
-//        'Email': $('#emailEdit').val() != "" ? $('#emailEdit').val().trim() : "",
-//    }
-//    if (validateRequired('#formEdit')) {
-//        callApi_userservice(
-//            apiConfig.api.user.controller,
-//            apiConfig.api.user.action.update.path,
-//            apiConfig.api.user.action.update.method,
-//            obj, 'updateUserSuccess', 'msgError');
-//    }
-//}
+function submitEdit() {
+    var obj = {
+        'Id': parseInt($('#IdEdit').val()),
+        'EmailAddress': $('#emailAddressEdit').val(),
+        'CC': $('#CCEdit').val().trim(),
+    }
+    if (validateRequired('#formEdit')) {
+        callApi_userservice(
+            apiConfig.api.sendmail.controller,
+            apiConfig.api.sendmail.action.UpdateEmail.path,
+            apiConfig.api.sendmail.action.UpdateEmail.method,
+            obj, 'updateEmailSuccess', 'msgError');
+    }
+}
 function fnGetDetail(type, param) {
     var call_back = '';
     if (type === 3) {
         call_back = 'fnEditSuccess';
+    }
+    else if (type === 2) {
+        call_back = 'fnGetDetailSuccess';
     }
     else {
         call_back = 'fnDeleteSuccess';
@@ -273,29 +275,30 @@ function fnGetDetail(type, param) {
         null, call_back, 'msgError');
 }
 
-//function fnGetDetailSuccess(rspn) {
-//    var frmModify = $("#formDetail");
-//    if (rspn !== undefined && rspn !== null) {
-
-//        frmModify.find("#IdDetail").val(rspn.data.id);
-//        frmModify.find("#userNameDetail").val(rspn.data.userName);
-
-//        frmModify.find("#NameDetail").val(rspn.data.fullName);
-//        frmModify.find("#isActiveDetail").val(rspn.data.isActive);
-
-//        frmModify.find("#roleDetail").val(rspn.data.roleId);
-//        frmModify.find("#emailDetail").val(rspn.data.email);
-//    }
-//}
+function fnGetDetailSuccess(rspn) {
+    var frmModify = $("#formEdit");
+    var divVisible = $('#SaveEditBtn');
+    divVisible.html('');
+    if (rspn !== undefined && rspn !== null) {
+        frmModify.find("#IdEdit").val(rspn.data.id);
+        frmModify.find("#emailAddressEdit").val(rspn.data.email_address);
+        frmModify.find("#CCEdit").val(rspn.data.cc);
+    }
+}
 function fnEditSuccess(rspn) {
     localStorage.removeItem("id");
     localStorage.removeItem("type");
     var frmModify = $("#formEdit");
-
+    var divVisible = $('#SaveEditBtn');
+    divVisible.html('');
+    var html =
+        '<button type="button" class="btn btn-info" style="width: 100%" onclick="submitEdit();">' + "Lưu" +
+        '</div >'
+    divVisible.append(html);
     if (rspn !== undefined && rspn !== null) {
         frmModify.find("#IdEdit").val(rspn.data.id);
-        frmModify.find("#emailAddressEdit").val(rspn.data.userName);
-        frmModify.find("#CCEdit").val(rspn.data.roleId);
+        frmModify.find("#emailAddressEdit").val(rspn.data.email_address);
+        frmModify.find("#CCEdit").val(rspn.data.cc);
     }
 }
 function downloadSample() {

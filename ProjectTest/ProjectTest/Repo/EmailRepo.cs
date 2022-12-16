@@ -78,13 +78,13 @@ namespace ProjectTest.Repo
         public List<Email> GetDetailEmailR(int id)
         {
             List<Email> list;
-            string sql = "EXECUTE SP_DETAIL_USER @user_id";
+            string sql = "EXECUTE SP_DETAIL_EMAIL @email_id";
 
 
             List<SqlParameter> parms = new List<SqlParameter>
             { 
                 // Create parameters    
-                new SqlParameter { ParameterName = "@user_id", Value = id },
+                new SqlParameter { ParameterName = "@email_id", Value = id },
             };
             list = _context.Email.FromSqlRaw<Email>(sql, parms.ToArray()).ToList();
             return list;
