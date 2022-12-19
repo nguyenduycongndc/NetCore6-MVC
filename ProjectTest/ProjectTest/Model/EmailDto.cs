@@ -40,4 +40,10 @@ namespace ProjectTest.Model
         public string email_address { get; set; }
         public string? cc { get; set; }
     }
+    public class DataEmailModel
+    {
+        public string subject { get; set;}
+        public string? body { get; set;} 
+        public int? checkauto { get; set;} 
+    }
 }

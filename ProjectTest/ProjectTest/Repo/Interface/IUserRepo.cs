@@ -18,6 +18,7 @@ namespace ProjectTest.Repo.Interface
         Task<bool> UpdateOTPUs(UserUpdateOTPModel userUpdateOTPModel);
         Task<bool> DeleteUs(int id, CurrentUserModel _userInfo);
         Task<bool> ForgotPassWordUs(ChangePassWordModel changePassWordModel);
+        Task<bool> ChangePassWordRepo(ChangePassWordLoginSuccessModel changePassWordLoginSuccessModel);
 
         //public Users GetDetail(int id);
         //Users GetDetailByName(InputLoginModel inputModel);

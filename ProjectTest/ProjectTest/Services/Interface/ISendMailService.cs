@@ -9,5 +9,8 @@ namespace ProjectTest.Services.Interface
         Task<ResultModel> GetAllEmailService(EmailSearchModel emailSearchModel);
         public Task<ResultModel> CreateEmailS(CreateEmailModel createEmailModel);
         public ResultModel GetDetailEmailModels(int id);
+        public Task<ResultModel> DeleteEmail(int id, CurrentUserModel _userInfo);
+        public Task<ResultModel> SaveDataEmailS(DataEmailModel dataEmailModel, CurrentUserModel _userInfo);
+        public Task<ResultModel> DataEmailDetailS();
     }
 }

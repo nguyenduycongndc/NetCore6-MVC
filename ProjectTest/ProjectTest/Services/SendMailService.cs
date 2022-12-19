@@ -17,14 +17,16 @@ namespace ProjectTest.Services
         private readonly IConfiguration _configuration;
         private readonly IUserRepo _userRepo;
         private readonly IEmailRepo _emailRepo;
+        private readonly IDataEmailRepo _dataemailRepo;
         private ResultModel Result;
 
-        public SendMailService(IConfiguration configuration, ILogger<SendMailService> logger, IUserRepo userRepo, IEmailRepo emailRepo)
+        public SendMailService(IConfiguration configuration, ILogger<SendMailService> logger, IUserRepo userRepo, IEmailRepo emailRepo, IDataEmailRepo dataemailRepo)
         {
             _logger = logger;
             _configuration = configuration;
             _userRepo = userRepo;
             _emailRepo = emailRepo;
+            _dataemailRepo = dataemailRepo;
         }
         public Task<bool> SendMailAsync(EmailDto emailDto)
         {
@@ -216,6 +218,77 @@ namespace ProjectTest.Services
 
                     return Result;
                 }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+        public async Task<ResultModel> DeleteEmail(int id, CurrentUserModel _userInfo)
+        {
+            try
+            {
+                var checkUser = _emailRepo.GetDetailEmailR(id);
+                if (checkUser.Count() == 0)
+                {
+                    _logger.LogError("Email này không tồn tại");
+                    Result = new ResultModel()
+                    {
+                        Message = "Not Found",
+                        Code = 404,
+                    };
+                    return Result;
+                }
+                var rs = await _emailRepo.DeleteEmailR(id, _userInfo);
+                Result = new ResultModel()
+                {
+                    Data = rs,
+                    Message = (rs == true ? "OK" : "Bad Request"),
+                    Code = (rs == true ? 200 : 400),
+                };
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+
+        public async Task<ResultModel> SaveDataEmailS(DataEmailModel dataEmailModel, CurrentUserModel _userInfo)
+        {
+            try
+            {
+                var checkDataEmail = _dataemailRepo.CheckDataEmail();
+                var rs = await _dataemailRepo.CrUpDataEmail(dataEmailModel, _userInfo);
+                Result = new ResultModel()
+                {
+                    Data = rs,
+                    Message = (rs != null ? "OK" : "Bad Request"),
+                    Code = (rs != null ? 200 : 400),
+                };
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+        public async Task<ResultModel> DataEmailDetailS()
+        {
+            try
+            {
+                var checkDataEmail = _dataemailRepo.DataEmailDetail();
+                //var rs = await _dataemailRepo.DataEmailDetail();
+                Result = new ResultModel()
+                {
+                    Data = checkDataEmail,
+                    Message = (checkDataEmail != null ? "OK" : "Bad Request"),
+                    Code = (checkDataEmail != null ? 200 : 400),
+                };
+                return Result;
             }
             catch (Exception ex)
             {

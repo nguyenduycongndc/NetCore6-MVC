@@ -79,6 +79,10 @@ namespace ProjectTest.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("deleted_at");
 
+                    b.Property<int?>("DeletedBy")
+                        .HasColumnType("int")
+                        .HasColumnName("deleted_by");
+
                     b.Property<string>("EmailAddress")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("email_address");

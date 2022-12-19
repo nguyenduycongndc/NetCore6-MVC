@@ -302,5 +302,21 @@ namespace ProjectTest.Repo
             }
         }
         #endregion
+        #region change password
+        public async Task<bool> ChangePassWordRepo(ChangePassWordLoginSuccessModel changePassWordLoginSuccessModel)
+        {
+            string sql = "EXECUTE SP_CHANGE_PASSWORD_LOGIN @id, @passwordnew, @salt";
+
+            List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@id", Value = changePassWordLoginSuccessModel.Id },
+                    new SqlParameter { ParameterName = "@passwordnew", Value = changePassWordLoginSuccessModel.PassWordNew },
+                    new SqlParameter { ParameterName = "@salt", Value = changePassWordLoginSuccessModel.SaltKey },
+                };
+
+            var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
+            return true;
+        }
+        #endregion
     }
 }

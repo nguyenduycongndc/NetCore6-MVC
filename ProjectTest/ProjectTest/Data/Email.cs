@@ -32,5 +32,9 @@ namespace ProjectTest.Data
         [Column("deleted_at")]
         [JsonPropertyName("deleted_at")]
         public DateTime? DeletedAt { get; set; }
+
+        [Column("deleted_by")]
+        [JsonPropertyName("deleted_by")]
+        public int? DeletedBy { get; set; }
     }
 }

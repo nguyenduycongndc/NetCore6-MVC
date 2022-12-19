@@ -52,9 +52,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="NewPassWord" class="col-sm-3 col-form-label">Mật khẩu mới<span class="text-danger">*</span></label>
+                        <label for="PassWordNew" class="col-sm-3 col-form-label">Mật khẩu mới<span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control required" id="NewPassWord" aria-label="NewPassWord" aria-describedby="basic-addon1" onkeypress='validateSLEdit(event)'>
+                            <input type="password" class="form-control required" id="PassWordNew" aria-label="PassWordNew" aria-describedby="basic-addon1" onkeypress='validateSLEdit(event)'>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -99,17 +99,18 @@
         }
     }
     function SaveClick() {
+        debugger;
         var obj = {
             'Id': @currentuser.Id,
             'PassWordOld': $('#PassWordOld').val().trim(),
-            'NewPassWord': $('#NewPassWord').val().trim(),
+            'PassWordNew': $('#PassWordNew').val().trim(),
             'ConfirmPassWordNew': $('#ConfirmPassWordNew').val().trim(),
         }
         if (validateRequired('#formChangePassWord')) {
-            if ($("#NewPassWord").val().length < 6 || $("#ConfirmPassWordNew").val().length < 6) {
+            if ($("#PassWordNew").val().length < 6 || $("#ConfirmPassWordNew").val().length < 6) {
                 toastr.error("Mật khẩu ít nhất 6 ký tự");
                 return false;
-            } else if ($("#NewPassWord").val() != $("#ConfirmPassWordNew").val()) {
+            } else if ($("#PassWordNew").val() != $("#ConfirmPassWordNew").val()) {
                 toastr.error("Xác nhận mật khẩu không đúng");
                 return false;
             }
@@ -122,6 +123,7 @@
     }
 
     function changePassWordSuccess(data) {
+        debugger;
         if (data != false) {
             toastr.success("Thay đổi mật khẩu thành công");
             $('#modalChangePassWord').modal('hide');

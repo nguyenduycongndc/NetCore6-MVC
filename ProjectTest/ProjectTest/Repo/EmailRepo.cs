@@ -89,5 +89,26 @@ namespace ProjectTest.Repo
             list = _context.Email.FromSqlRaw<Email>(sql, parms.ToArray()).ToList();
             return list;
         }
+
+        public async Task<bool> DeleteEmailR(int id, CurrentUserModel _userInfo)
+        {
+            try
+            {
+                string sql = "EXECUTE SP_DELETE_EMAIL @id, @deleted_by";
+
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@id", Value = id },
+                    new SqlParameter { ParameterName = "@deleted_by", Value = _userInfo.Id },
+                };
+
+                var dt = await _context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

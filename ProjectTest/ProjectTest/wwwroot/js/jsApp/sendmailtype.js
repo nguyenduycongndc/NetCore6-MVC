@@ -14,8 +14,8 @@
     else if (type === 1) {
         clearMsgInvalid();
         $('#emailAddressCreate').val(""),
-        $('#CCCreate').val(""),
-        localStorage.setItem("type", "1");
+            $('#CCCreate').val(""),
+            localStorage.setItem("type", "1");
         index.hide();
         //detail.hide();
         create.show();
@@ -60,8 +60,8 @@ function fnSearchDataSuccess(rspn) {
                 '<td>' + CA + '</td>' +
                 '<td class="text-center">' +
                 '<a type="button" class="btn icon-default btn-action-custom" onclick="openView(2,' + obj.id + ')" style="color:green"><i data-toggle="tooltip" title="Chi tiết" class="fa fa-eye" aria-hidden="true"></i></a>' +
-                '<a type="button" class="btn icon-default btn-action-custom" onclick="openView(3,' + obj.id + ')" style="color:blue"><i data-toggle="tooltip" title="Cập nhật" class="micon dw dw-edit2" aria-hidden="true"></i></a>'+
-                '<a type="button" class="btn icon-delete btn-action-custom" onclick="Delete(' + obj.id + ')" style="color:red"><i data-toggle="tooltip" title="Xóa" class="fa fa-trash" aria-hidden="true"></i></a>'+
+                '<a type="button" class="btn icon-default btn-action-custom" onclick="openView(3,' + obj.id + ')" style="color:blue"><i data-toggle="tooltip" title="Cập nhật" class="micon dw dw-edit2" aria-hidden="true"></i></a>' +
+                '<a type="button" class="btn icon-delete btn-action-custom" onclick="Delete(' + obj.id + ')" style="color:red"><i data-toggle="tooltip" title="Xóa" class="fa fa-trash" aria-hidden="true"></i></a>' +
                 '</td>' +
                 '</tr>';
             tbBody.append(html);
@@ -155,23 +155,39 @@ function onSearch() {
         apiConfig.api.sendmail.action.searchemail.path,
         apiConfig.api.sendmail.action.searchemail.method,
         obj, 'fnSearchDataSuccess', 'msgError');
+
+    callApi_userservice(
+        apiConfig.api.dataemail.controller,
+        apiConfig.api.dataemail.action.dataemaildetail.path,
+        apiConfig.api.dataemail.action.dataemaildetail.method,
+        obj, 'fnDataEmailSuccess', 'msgError');
 }
-//function fnDeleteSuccess(rspn) {
-//    swal({
-//        title: "Thông báo",
-//        text: 'Bạn có chắc chắn muốn xoá bản ghi' + ' ' + '"' + rspn.data.fullName + '"',
-//        type: 'warning',
-//        showCancelButton: !0,
-//    }).then((isConfirm) => {
-//        if (isConfirm.value == true) {
-//            fnDeleteUser(rspn.data.id);
-//        }
-//        return false;
-//    });
-//}
-//function Delete(id) {
-//    fnGetDetail(null, id);
-//}
+function fnDataEmailSuccess(rspn) {
+    var frmDataEmail = $("#formDataEmail");
+    frmDataEmail.find("#Subject").val(rspn.data.subject);
+    rspn.data.check_auto == 1 ? $("#checkBoxStatus").prop('checked', true) : $("#checkBoxStatus").prop('checked', false);
+    if (CKEDITOR.instances['BodyData']) {
+        CKEDITOR.instances['BodyData'].setData(rspn.data.body);
+        CKEDITOR.instances['BodyData'].updateElement();
+    }
+    EnableSave();
+}
+function fnDeleteSuccess(rspn) {
+    swal({
+        title: "Thông báo",
+        text: 'Bạn có chắc chắn muốn xoá bản ghi' + ' ' + '"' + rspn.data.email_address + '"',
+        type: 'warning',
+        showCancelButton: !0,
+    }).then((isConfirm) => {
+        if (isConfirm.value == true) {
+            fnDeleteEmail(rspn.data.id);
+        }
+        return false;
+    });
+}
+function Delete(id) {
+    fnGetDetail(null, id);
+}
 
 //function UnitTypeActive(id, input) {
 //    var status = 1;
@@ -207,26 +223,25 @@ function createEmailSuccess(data) {
     }
 }
 
-//function fnDeleteUserSuccess(rspn) {
-//    if (rspn.data === true) {
-//        toastr.success("Xóa dữ liệu thành công");
-//        onSearch();
-//    }
-//    else {
-//        toastr.error("Xóa dữ liệu thất bại");
-//    }
-
-//}
-
+function fnDeleteEmailSuccess(rspn) {
+    if (rspn.data === true) {
+        toastr.success("Xóa dữ liệu thành công");
+        onSearch();
+    }
+    else {
+        toastr.error("Xóa dữ liệu thất bại");
+    }
+}
 
 
-//function fnDeleteUser(id) {
-//    callApi_userservice(
-//        apiConfig.api.user.controller,
-//        apiConfig.api.user.action.delete.path + "?id=" + id,
-//        apiConfig.api.user.action.delete.method,
-//        null, 'fnDeleteUserSuccess', 'msgError');
-//}
+
+function fnDeleteEmail(id) {
+    callApi_userservice(
+        apiConfig.api.sendmail.controller,
+        apiConfig.api.sendmail.action.deleteEmail.path + "?id=" + id,
+        apiConfig.api.sendmail.action.deleteEmail.method,
+        null, 'fnDeleteEmailSuccess', 'msgError');
+}
 function submitCreate() {
     var obj = {
         'email_address': $('#emailAddressCreate').val().trim(),
@@ -334,4 +349,31 @@ function downloadSample() {
     }
     request.send();
 }
+function SaveDataEmail() {
+    var obj = {
+        'subject': $('#Subject').val().trim(),
+        'body': $.trim(CKEDITOR.instances["BodyData"].getData()),
+        'checkauto': $('#checkBoxStatus').prop('checked') ? 1 : 0,
+    }
+    callApi_userservice(
+        apiConfig.api.dataemail.controller,
+        apiConfig.api.dataemail.action.savedataemail.path,
+        apiConfig.api.dataemail.action.savedataemail.method,
+        obj, 'SaveDataEmailSuccess', 'msgError');
+    //if (validateRequired('#formDataEmail')) {
 
+    //}
+}
+function SaveDataEmailSuccess(rspn) {
+    if (rspn.data === true) {
+        toastr.success("Thay đổi dữ liệu thành công");
+    }
+    else {
+        toastr.error("Thay đổi dữ liệu thất bại");
+    }
+}
+function EnableSave() {
+    if ($('#Subject').val().length > 0) {
+        return $("#SaveDataBtn").attr("disabled", false);
+    } else return $("#SaveDataBtn").attr("disabled", true);
+}

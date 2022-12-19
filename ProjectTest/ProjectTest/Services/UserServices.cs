@@ -229,7 +229,7 @@ namespace ProjectTest.Services
                     };
                     return Result;
                 }
-                
+
                 UserUpdateModel us = new UserUpdateModel()
                 {
                     Id = updateModel.Id,
@@ -269,6 +269,75 @@ namespace ProjectTest.Services
                     return Result;
                 }
                 var rs = await userRepo.DeleteUs(id, _userInfo);
+                Result = new ResultModel()
+                {
+                    Data = rs,
+                    Message = (rs == true ? "OK" : "Bad Request"),
+                    Code = (rs == true ? 200 : 400),
+                };
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+        public async Task<ResultModel> ChangePassWordService(ChangePassWordLoginModel input)
+        {
+            try
+            {
+                string salt = "";
+                string hashedPassword = "";
+                if (input != null)
+                {
+                    var data = userRepo.GetDetail(input.Id);
+                    if (data == null)
+                    {
+                        Result = new ResultModel()
+                        {
+                            Message = "Tài khoản này không tồn tại",
+                            Code = 403,
+                        };
+                        return Result;
+                    }
+                    //var user = userRepo.CheckUser(data[0].UserName);
+                    //if (user == null)
+                    //{
+                    //    return false;
+                    //}
+                    var checkPass = Crypto.VerifyHashedPassword(data[0].Password, input.PassWordOld + data[0].SaltKey);
+                    if (!checkPass)
+                    {
+                        Result = new ResultModel()
+                        {
+                            Message = "Mật khẩu cũ không đúng",
+                            Code = 400,
+                        };
+                        return Result;
+                    }
+                    if (input.PassWordNew != input.ConfirmPassWordNew)
+                    {
+                        _logger.LogError("Xác nhận mật khẩu không chính xác");
+                        Result = new ResultModel()
+                        {
+                            Message = "Xác nhận mật khẩu không chính xác",
+                            Code = 400,
+                        };
+                        return Result;
+                    }
+                    var pass = input.PassWordNew;
+                    salt = Crypto.GenerateSalt();
+                    var password = input.PassWordNew + salt;
+                    hashedPassword = Crypto.HashPassword(password);
+                }
+                ChangePassWordLoginSuccessModel us = new ChangePassWordLoginSuccessModel()
+                {
+                    Id = input.Id,
+                    PassWordNew = hashedPassword,
+                    SaltKey = salt,
+                };
+                var rs = await userRepo.ChangePassWordRepo(us);
                 Result = new ResultModel()
                 {
                     Data = rs,

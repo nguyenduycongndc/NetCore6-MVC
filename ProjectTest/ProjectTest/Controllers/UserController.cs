@@ -214,5 +214,29 @@ namespace ProjectTest.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPut]
+        [Route("ChangePassWord")]
+        public async Task<ResultModel> ChangePassWord([FromBody] ChangePassWordLoginModel input)
+        {
+            try
+            {
+                if (HttpContext.Items["UserInfo"] is not CurrentUserModel _userInfo)
+                {
+                    return ResUnAuthorized.Unauthor();
+                }
+                return await _userService.ChangePassWordService(input);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                var data = new ResultModel()
+                {
+                    Message = "Not Found",
+                    Code = 404,
+                };
+                return data;
+            }
+        }
     }
 }

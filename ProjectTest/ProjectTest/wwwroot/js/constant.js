@@ -118,14 +118,35 @@ var apiConfig = {
                     "method": "PUT",
                     "path": "/UpdateEmail"
                 },
-                "exportsampleexcel": {
-                    "method": "GET",
-                    "path": "/ExportSampleExcel"
-                },
                 "exportexcel": {
                     "method": "GET",
                     "path": "/ExportExcel"
+                },
+                "savedataemail": {
+                    "method": "POST",
+                    "path": "/SaveDataEmail"
                 }
+            }
+        },
+        "dataemail": {
+            "controller": "/api/DataEmail",
+            "action": {
+                //"searchemail": {
+                //    "method": "POST",
+                //    "path": "/SearchEmail"
+                //},
+                //"getItem": {
+                //    "method": "GET",
+                //    "path": "/DetailEmail"
+                //},
+                "savedataemail": {
+                    "method": "POST",
+                    "path": "/SaveDataEmail"
+                },
+                "dataemaildetail": {
+                    "method": "GET",
+                    "path": "/DataEmailDetail"
+                },
             }
         },
     },

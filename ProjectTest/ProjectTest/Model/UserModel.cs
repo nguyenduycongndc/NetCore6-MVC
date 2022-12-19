@@ -121,4 +121,18 @@ namespace ProjectTest.Model
         public string? Message { get; set; }
         public int Code { get; set; }
     }
+
+    public class ChangePassWordLoginModel
+    {
+        public int Id { get; set; }
+        public string PassWordOld { get; set; }
+        public string PassWordNew { get; set; }
+        public string ConfirmPassWordNew { get; set; }
+    }
+    public class ChangePassWordLoginSuccessModel
+    {
+        public int Id { get; set; }
+        public string PassWordNew { get; set; }
+        public string SaltKey { get; set; }
+    }
 }
