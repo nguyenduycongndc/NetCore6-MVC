@@ -32,7 +32,7 @@ namespace ProjectTest.Services
         {
             try
             {
-                string[] listEmail = emailDto.To.Split(", ");
+                string[] listEmail = emailDto.To.Split(",");
                 var smtpClient = new SmtpClient(_configuration.GetSection("EmailHost").Value)
                 {
                     Port = 587,
@@ -49,20 +49,26 @@ namespace ProjectTest.Services
                         mailMessage.Body = emailDto.Body;
                         mailMessage.From = new MailAddress(_configuration.GetSection("EmailUsername").Value);
                         mailMessage.To.Add(new MailAddress(AddressEmailTo[0]));
-                        mailMessage.CC.Add(new MailAddress(AddressEmailTo[1]));
+                        if (AddressEmailTo[1] != "")
+                        {
+                            mailMessage.CC.Add(new MailAddress(AddressEmailTo[1]));
+                        }
                         mailMessage.IsBodyHtml = true;
                         smtpClient.Send(mailMessage);
                     }
                 }
                 else
                 {
-                    var AddressEmailTo = emailDto.To.Split("-");
+                    var AddressEmailTo = emailDto.To.Split(";");
                     MailMessage mailMessage = new MailMessage();
                     mailMessage.Subject = emailDto.Subject;
                     mailMessage.Body = emailDto.Body;
                     mailMessage.From = new MailAddress(_configuration.GetSection("EmailUsername").Value);
                     mailMessage.To.Add(new MailAddress(AddressEmailTo[0]));
-                    mailMessage.CC.Add(new MailAddress(AddressEmailTo[1]));
+                    if (AddressEmailTo[1] != "")
+                    {
+                        mailMessage.CC.Add(new MailAddress(AddressEmailTo[1]));
+                    }
                     mailMessage.IsBodyHtml = true;
                     smtpClient.Send(mailMessage);
                 }

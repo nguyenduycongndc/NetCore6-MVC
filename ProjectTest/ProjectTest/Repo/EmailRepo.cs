@@ -110,5 +110,14 @@ namespace ProjectTest.Repo
                 throw ex;
             }
         }
+
+        public List<Email> CheckAllEmail()
+        {
+            //return null;
+            List<Email> list;
+            string sql = "EXEC SP_CHECK_ALL_EMAIL";
+            list = _context.Email.FromSqlRaw<Email>(sql).ToList();
+            return list;
+        }
     }
 }

@@ -57,31 +57,31 @@ var apiConfig = {
                     //function support get items by search condition
                     "method": "POST",
                     "path": "/SearchAccount"
-                },"searchaccounthero": {
+                }, "searchaccounthero": {
                     //function support get items by search condition
                     "method": "POST",
                     "path": "/SearchAccountHero"
-                },"searchaccountitem": {
+                }, "searchaccountitem": {
                     //function support get items by search condition
                     "method": "POST",
                     "path": "/SearchAccountItem"
-                },"searchaccountticket": {
+                }, "searchaccountticket": {
                     //function support get items by search condition
                     "method": "POST",
                     "path": "/SearchAccountTicket"
-                },"searchaccountpack": {
+                }, "searchaccountpack": {
                     //function support get items by search condition
                     "method": "POST",
                     "path": "/SearchAccountPack"
-                },"searchaccountegg": {
+                }, "searchaccountegg": {
                     //function support get items by search condition
                     "method": "POST",
                     "path": "/SearchAccountEgg"
-                },"searchaccountshard": {
+                }, "searchaccountshard": {
                     //function support get items by search condition
                     "method": "POST",
                     "path": "/SearchAccountShard"
-                },"searchaccountref": {
+                }, "searchaccountref": {
                     //function support get items by search condition
                     "method": "POST",
                     "path": "/SearchAccountRef"

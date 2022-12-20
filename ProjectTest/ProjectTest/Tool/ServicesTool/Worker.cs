@@ -22,7 +22,8 @@ namespace ProjectTest.Tool.ServicesTool
                 var sendMailService = scope.ServiceProvider.GetService<ISendMailService>();
                 var dataMailRepo = scope.ServiceProvider.GetService<IDataEmailRepo>();
                 var userRepo = scope.ServiceProvider.GetService<IUserRepo>();
-                var allEmail = userRepo.CheckAllEmail();
+                var emailRepo = scope.ServiceProvider.GetService<IEmailRepo>();
+                var allEmail = emailRepo.CheckAllEmail();
                 var dataEmail = dataMailRepo.CheckDataEmailAuto();
                 try
                 {
@@ -31,7 +32,7 @@ namespace ProjectTest.Tool.ServicesTool
                         List<EmailModel> lst = new List<EmailModel>();
                         var list = allEmail.Select(x => new EmailModel()
                         {
-                            Email = x.Email,
+                            Email = x.EmailAddress +';' + x.CC,
                         }).ToList();
                         var strEmail = string.Join(", ", list.Select(x => x.Email).ToArray());
                         EmailDto inputEmail = new EmailDto()

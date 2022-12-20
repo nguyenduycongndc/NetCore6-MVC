@@ -25,11 +25,11 @@ namespace ProjectTest.Repo
         }
         public DataEmail CheckDataEmailAuto()//AutoSendMail
         {
-            ////List<DataEmail> data;
-            //string sql = "EXEC SP_CHECK_DATA_EMAIL";
-            //var data = _context.DataEmail.FromSqlRaw<DataEmail>(sql).ToList().FirstOrDefault();
-            //return data;
-            return null;
+            //List<DataEmail> data;
+            string sql = "EXEC SP_CHECK_DATA_EMAIL_AUTO";
+            var data = _context.DataEmail.FromSqlRaw<DataEmail>(sql).ToList().FirstOrDefault();
+            return data;
+            //return null;
         }
         public async Task<bool> CrUpDataEmail(DataEmailModel dataEmailModel, CurrentUserModel _userInfo)
         {

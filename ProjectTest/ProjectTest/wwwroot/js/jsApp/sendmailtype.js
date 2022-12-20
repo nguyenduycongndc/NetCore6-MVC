@@ -67,7 +67,7 @@ function fnSearchDataSuccess(rspn) {
                 '<td class="text-center"></td>' +
                 '<td class=" dt-body-center">' +
                 '<div class="dt-checkbox">' +
-                '<input type="checkbox" class="checkitem" id="checkitem_' + i + '" value="' + obj.email_address + ';' + CC + '"><span class="dt-checkbox-label"></span>'+
+                '<input type="checkbox" class="checkitem" id="checkitem_' + i + '" value="' + obj.email_address + ';' + CC + '"><span class="dt-checkbox-label"></span>' +
                 //(CC != "" ? 
                 //    '<input type="checkbox" class="checkitem" id="checkitem_' + i + '" value="' + obj.email_address + ';' + CC + '"><span class="dt-checkbox-label"></span>' :
                 //    '<input type="checkbox" class="checkitem" id="checkitem_' + i + '" value="' + obj.email_address + '"><span class="dt-checkbox-label"></span>'
@@ -404,11 +404,19 @@ function Start() //send mail
     var obj = {
         'Subject': $('#Subject').val().trim(),
         'Body': $.trim(CKEDITOR.instances["BodyData"].getData()),
-        'To': _objList,
+        'To': _objList.join(),
     }
     callApi_userservice(
         apiConfig.api.sendmail.controller,
         apiConfig.api.sendmail.action.sendemail.path,
         apiConfig.api.sendmail.action.sendemail.method,
         obj, 'SendEmailSuccess', 'msgError');
+}
+function SendEmailSuccess(rspn) {
+    if (rspn.data === true) {
+        toastr.success(rspn.message);
+    }
+    else {
+        toastr.error(rspn.message);
+    }
 }

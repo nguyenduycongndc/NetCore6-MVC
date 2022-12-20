@@ -10,5 +10,7 @@ namespace ProjectTest.Repo.Interface
         Task<bool> CreateEmailR(EmailCrModel cre);
         List<Email> GetDetailEmailR(int id);
         Task<bool> DeleteEmailR(int id, CurrentUserModel _userInfo);
+        List<Email> CheckAllEmail();
+
     }
 }

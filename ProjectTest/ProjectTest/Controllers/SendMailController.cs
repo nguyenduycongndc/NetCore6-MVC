@@ -40,7 +40,7 @@ namespace ProjectTest.Controllers
         }
         [HttpPost]
         [Route("SendEmail")]
-        public async Task<ResultModel> SendEmail(EmailDto emailDto)
+        public async Task<ResultModel> SendEmail([FromBody] EmailDto emailDto)
         {
             try
             {
@@ -50,8 +50,18 @@ namespace ProjectTest.Controllers
                     var data = new ResultModel()
                     {
                         Data = true,
-                        Message = "Ok",
+                        Message = "Email sending success",
                         Code = 200,
+                    };
+                    return data;
+                }
+                else if(sendMailRs == false)
+                {
+                    var data = new ResultModel()
+                    {
+                        Data = false,
+                        Message = "Email sending failed",
+                        Code = 400,
                     };
                     return data;
                 }

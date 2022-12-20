@@ -147,11 +147,11 @@ namespace ProjectTest.Repo
             list = context.Users.FromSqlRaw<Users>(sql, parms.ToArray()).ToList();
             return list;
         }
-        public List<Users> CheckAllEmail()//AutoSendMail
+        public List<Users> CheckAllEmailUser()//AutoSendMail
         {
             //return null;
             List<Users> list;
-            string sql = "EXEC SP_CHECK_ALL_EMAIL";
+            string sql = "EXEC SP_CHECK_ALL_EMAIL_USER";
             list = context.Users.FromSqlRaw<Users>(sql).ToList();
             return list;
         }
