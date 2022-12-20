@@ -24,12 +24,13 @@
                                 <div class="contact-dire-info text-center">
                                     <h4>Content Email</h4>
                                     <div class="form-group col-md-12 row">
-                                        <input type="text" class="form-control required" placeholder="Subject" id="Subject" aria-label="Subject" aria-describedby="basic-addon1" onchange="EnableSave()">
+                                        <input type="text" class="form-control required" placeholder="Subject" id="Subject" aria-label="Subject" aria-describedby="basic-addon1" @*onchange="EnableSave()"*@>
                                     </div>
                                     <div class="form-group col-md-12 row" style="margin-bottom:10px">
                                         <textarea placeholder="Body" class="form-control col-md-12" rows="3" id="BodyData" name="BodyData"></textarea>
                                     </div>
                                     <div class="modal-footer" id="footerBd">
+                                        <div><input type="checkbox" id="checkBoxStatus" />&ensp;Status auto send mail</div>
                                         <button href="javascript:void(0);" class="btn btn-info" id="SaveDataBtn" disabled onclick="SaveDataEmail()">Save</button>
                                         <button href="javascript:void(0);" class="btn btn-secondary" onclick="ClearDataEmail()">Clear</button>
                                     </div>
@@ -86,6 +87,12 @@
                                             <thead class="contain-header-custom m-gray">
                                                 <tr>
                                                     <th class="sorting" style="text-align: center">No</th>
+                                                    <th>
+                                                        <div class="dt-checkbox">
+                                                            <input type="checkbox" name="select_all_name" value="1" id="select_all">
+                                                            <span class="dt-checkbox-label"></span>
+                                                        </div>
+                                                    </th>
                                                     <th class="sorting" style="text-align: center">Email Address</th>
                                                     <th class="sorting" style="text-align: center">CC</th>
                                                     <th class="sorting" style="text-align: center">Date Created</th>
@@ -114,8 +121,7 @@
             <button href="javascript:void(0);" class="btn btn-secondary" onclick="Pause()">Tạm dừng</button>
             </div>*@
             <div class="modal-footer" id="footer2" @*style="display:none"*@>
-                <div><input type="checkbox" id="checkBoxStatus" />&ensp;Status auto send mail</div>
-                <button href="javascript:void(0);" class="btn btn-info" onclick="Start()" disabled>Send Mail</button>
+                <button href="javascript:void(0);" class="btn btn-info" id="sendMailBtn" onclick="Start()" disabled>Send Mail</button>
                 <button href="javascript:void(0);" class="btn btn-secondary" onclick="Pause()">Pause Send Mail</button>
             </div>
         </div>
@@ -212,6 +218,13 @@
     </div>
 </div>
 <script>
+    //$("#select_all").click(function () {
+    //    $('.checkitem').not(this).prop('checked', this.checked);
+    //});
+    
+    $("#Subject").keyup(function () {
+        EnableSave();
+    });
     onSearch();
 </script>
 @*@section Scripts{*@
@@ -220,11 +233,11 @@
     CKEDITOR.replace("BodyData", {
         disableObjectResizing: true
     });
-                                        //$(document).ready(function () {
-                                        //    CKEDITOR.replace('#Body', {
-                                        //        height: 300,
-                                        //        disableObjectResizing: true
-                                        //    });
-                                        //});
+                                                //$(document).ready(function () {
+                                                //    CKEDITOR.replace('#Body', {
+                                                //        height: 300,
+                                                //        disableObjectResizing: true
+                                                //    });
+                                                //});
 </script>
 @*}*@

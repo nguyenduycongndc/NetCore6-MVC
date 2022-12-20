@@ -122,9 +122,9 @@ var apiConfig = {
                     "method": "GET",
                     "path": "/ExportExcel"
                 },
-                "savedataemail": {
+                "sendemail": {
                     "method": "POST",
-                    "path": "/SaveDataEmail"
+                    "path": "/SendEmail"
                 }
             }
         },

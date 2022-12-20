@@ -149,11 +149,11 @@ namespace ProjectTest.Repo
         }
         public List<Users> CheckAllEmail()//AutoSendMail
         {
-            return null;
-            //List<Users> list;
-            //string sql = "EXEC SP_CHECK_ALL_EMAIL";
-            //list = context.Users.FromSqlRaw<Users>(sql).ToList();
-            //return list;
+            //return null;
+            List<Users> list;
+            string sql = "EXEC SP_CHECK_ALL_EMAIL";
+            list = context.Users.FromSqlRaw<Users>(sql).ToList();
+            return list;
         }
 
         public List<Users> CheckOTP(checkOTPModel checkOTPModel)

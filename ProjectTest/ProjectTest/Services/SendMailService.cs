@@ -43,7 +43,7 @@ namespace ProjectTest.Services
                 {
                     for (int i = 0; i < listEmail.Length; i++)
                     {
-                        var AddressEmailTo = listEmail[i].Split("-");
+                        var AddressEmailTo = listEmail[i].Split(";");
                         MailMessage mailMessage = new MailMessage();
                         mailMessage.Subject = emailDto.Subject;
                         mailMessage.Body = emailDto.Body;

@@ -43,6 +43,16 @@
     //}
 }
 
+$(document).on('click', '#select_all', function () {
+    $('.checkitem').not(this).prop('checked', this.checked);
+    var _objList = $('input[class="checkitem"]:checked').map((_, el) => el.value).get();
+    if (_objList.length > 0) {
+        return $("#sendMailBtn").attr("disabled", false);
+    } else {
+        return $("#sendMailBtn").attr("disabled", true);
+    }
+});
+
 function fnSearchDataSuccess(rspn) {
     showLoading();
     if (rspn !== undefined && rspn !== null && rspn.data.length > 0) {
@@ -55,6 +65,15 @@ function fnSearchDataSuccess(rspn) {
             var CA = obj.create_at != null ? obj.create_at : "";
             var html = '<tr>' +
                 '<td class="text-center"></td>' +
+                '<td class=" dt-body-center">' +
+                '<div class="dt-checkbox">' +
+                '<input type="checkbox" class="checkitem" id="checkitem_' + i + '" value="' + obj.email_address + ';' + CC + '"><span class="dt-checkbox-label"></span>'+
+                //(CC != "" ? 
+                //    '<input type="checkbox" class="checkitem" id="checkitem_' + i + '" value="' + obj.email_address + ';' + CC + '"><span class="dt-checkbox-label"></span>' :
+                //    '<input type="checkbox" class="checkitem" id="checkitem_' + i + '" value="' + obj.email_address + '"><span class="dt-checkbox-label"></span>'
+                //) +
+                '</div>' +
+                '</td > ' +
                 '<td>' + obj.email_address + '</td>' +
                 '<td>' + CC + '</td>' +
                 '<td>' + CA + '</td>' +
@@ -65,7 +84,21 @@ function fnSearchDataSuccess(rspn) {
                 '</td>' +
                 '</tr>';
             tbBody.append(html);
+
+            $("#checkitem_" + i + "").click(function () {
+                var _objList = $('input[class="checkitem"]:checked').map((_, el) => el.value).get();
+                if (_objList.length > 0) {
+                    return $("#sendMailBtn").attr("disabled", false);
+                }
+                if (_objList.length == rspn.data.length) {
+                    $('#select_all').prop('checked', this.checked);
+                } else {
+                    $('#select_all').prop('checked', false);
+                    return $("#sendMailBtn").attr("disabled", true);
+                }
+            });
         }
+
         var page_size = (parseInt($("#txtCurrentPage").val()) - 1) * parseInt($("#cbPageSize").val())
         var t = $("#emailTypeTable").DataTable({
             "bPaginate": false,
@@ -85,7 +118,7 @@ function fnSearchDataSuccess(rspn) {
                     }
                 },
                 {
-                    "targets": [0, 3, 4],
+                    "targets": [0, 1, 3, 4],
                     "searchable": false,
                     "orderable": false
                 }],
@@ -126,7 +159,7 @@ function fnSearchDataSuccess(rspn) {
                     }
                 },
                 {
-                    "targets": [0, 3, 4],
+                    "targets": [0, 1, 3, 4],
                     "searchable": false,
                     "orderable": false
                 }],
@@ -189,25 +222,6 @@ function Delete(id) {
     fnGetDetail(null, id);
 }
 
-//function UnitTypeActive(id, input) {
-//    var status = 1;
-//    if ($(input).prop("checked") == false) {
-//        status = 0;
-//    }
-//    fnActive(id, status);
-//}
-//function updateUserSuccess(data) {
-//    if (data != false) {
-//        toastr.success("Thêm mới thành công");
-//        setTimeout(function () {
-//            openView(0, 0)
-//        }, 2000);
-//    }
-//    else {
-//        toastr.error("Thêm mới thất bại");
-//        //setTimeout(function () { toastr.error(getStatusCode(data.code), 'Error', { progressBar: true }) }, 70);
-//    }
-//}
 function createEmailSuccess(data) {
     if (data.data !== null) {
         toastr.success("Thêm mới thành công");
@@ -376,4 +390,25 @@ function EnableSave() {
     if ($('#Subject').val().length > 0) {
         return $("#SaveDataBtn").attr("disabled", false);
     } else return $("#SaveDataBtn").attr("disabled", true);
+}
+function ClearDataEmail() {
+    $("#SaveDataBtn").attr("disabled", true);
+    $('#Subject').val(null);
+    CKEDITOR.instances['BodyData'].setData('');
+
+}
+
+function Start() //send mail
+{
+    var _objList = $('input[class="checkitem"]:checked').map((_, el) => el.value).get();
+    var obj = {
+        'Subject': $('#Subject').val().trim(),
+        'Body': $.trim(CKEDITOR.instances["BodyData"].getData()),
+        'To': _objList,
+    }
+    callApi_userservice(
+        apiConfig.api.sendmail.controller,
+        apiConfig.api.sendmail.action.sendemail.path,
+        apiConfig.api.sendmail.action.sendemail.method,
+        obj, 'SendEmailSuccess', 'msgError');
 }

@@ -39,8 +39,8 @@ namespace ProjectTest.Controllers
             return View();
         }
         [HttpPost]
-        [Route("SendMail")]
-        public async Task<ResultModel> SendMail(EmailDto emailDto)
+        [Route("SendEmail")]
+        public async Task<ResultModel> SendEmail(EmailDto emailDto)
         {
             try
             {
