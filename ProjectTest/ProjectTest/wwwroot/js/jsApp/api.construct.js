@@ -49,7 +49,8 @@ function callApi(controller, action, method, data, callbackSuccess, callbackErro
 
 function callUpload(controller, action, formData, callbackSuccess, callbackError) {
     $.ajax({
-        "url": apiConfig.api.host + controller + action,
+        //"url": apiConfig.api.host + controller + action,
+        "url": apiConfig.api.host_user_service + controller + action,
         "contentType": false,
         "processData": false,
         "dataType": 'json',

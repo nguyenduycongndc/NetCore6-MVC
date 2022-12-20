@@ -10,6 +10,10 @@ using OfficeOpenXml;
 using System.Text.Json;
 using Microsoft.AspNetCore.Hosting;
 using ProjectTest.Services;
+using ClosedXML.Excel;
+using ProjectTest.Data;
+using ProjectTest.Repo.Interface;
+using ProjectTest.Repo;
 
 namespace ProjectTest.Controllers
 {
@@ -21,17 +25,22 @@ namespace ProjectTest.Controllers
         private readonly ILogger<SendMailController> _logger;
         protected readonly IConfiguration _config;
         private readonly ISendMailService _sendMailService;
+        private readonly IEmailRepo _emailRepo;
         public readonly string _contentFolderEmailSample;
         public const string CONTEN_FOLDER_NAME_EMAIL_SAMPLE = "SampleFile.xlsx";
         public readonly string _contentFolderEmail;
         public const string CONTEN_FOLDER_NAME_EMAIL = "FileExcelEmail.xlsx";
-        public SendMailController(ILogger<SendMailController> logger, ISendMailService sendMailService, IConfiguration config, IWebHostEnvironment webHostEnvironment)
+        public readonly string _contentFolder;
+        public const string CONTEN_FOLDER_NAME = "UploadFile";
+        public SendMailController(ILogger<SendMailController> logger, ISendMailService sendMailService, IConfiguration config, IWebHostEnvironment webHostEnvironment, IEmailRepo emailRepo)
         {
             _logger = logger;
             _sendMailService = sendMailService;
             _config = config;
             _contentFolderEmailSample = Path.Combine(webHostEnvironment.WebRootPath, CONTEN_FOLDER_NAME_EMAIL_SAMPLE);
             _contentFolderEmail = Path.Combine(webHostEnvironment.WebRootPath, CONTEN_FOLDER_NAME_EMAIL);
+            _contentFolder = Path.Combine(webHostEnvironment.WebRootPath, CONTEN_FOLDER_NAME);
+            _emailRepo = emailRepo;
         }
         [HttpGet]
         public IActionResult Index()
@@ -244,6 +253,72 @@ namespace ProjectTest.Controllers
                     Code = 404,
                 };
                 return data;
+            }
+        }
+        //import excel
+        [HttpPost]
+        [Route("ImportExcel"), DisableRequestSizeLimit]
+        public ResultModel ImportExcel(IFormFile file)
+        {
+            try
+            {
+                //var fileextension = Path.GetExtension(file.FileName);
+                //var filename = Guid.NewGuid().ToString() + fileextension;
+                //var filepath = Path.Combine(_contentFolder, filename);
+                var filepath = Path.Combine(_contentFolder, file.FileName);
+                using (FileStream fs = System.IO.File.Create(filepath))
+                {
+                    file.CopyTo(fs);
+                }
+                int rowno = 1;
+                XLWorkbook workbook = XLWorkbook.OpenFromTemplate(filepath);
+                var sheets = workbook.Worksheets.First();
+                var rows = sheets.Rows().ToList();
+                foreach (var row in rows)
+                {
+                    if (rowno != 1)
+                    {
+                        var test = row.Cell(1).Value.ToString();
+                        if (string.IsNullOrWhiteSpace(test) || string.IsNullOrEmpty(test))
+                        {
+                            break;
+                        }
+                        var allEmail = _emailRepo.CheckAllEmail();
+                        //email = _context.Email.Where(s => s.Name == row.Cell(1).Value.ToString()).FirstOrDefault();
+                        if (allEmail == null)
+                        {
+                            allEmail = new List<Email>();
+                        }
+                        //allEmail.Name = row.Cell(1).Value.ToString();
+                        //student.Class = row.Cell(2).Value.ToString();
+                        //state.Roll_No = row.Cell(3).Value.ToString();
+                        //if (student.Id == Guid.Empty)
+                        //    _context.Students.Add(student);
+                        //else
+                        //    _context.Students.Update(student);
+                    }
+                    else
+                    {
+                        rowno = 2;
+                    }
+                }
+                var data = new ResultModel()
+                {
+                    Message = "Not Found",
+                    Code = 404,
+                };
+                return data;
+                //_context.SaveChanges();
+                //return new ResponseViewModel<object>
+                //{
+                //    Status = true,
+                //    Message = "Data Updated Successfully",
+                //    StatusCode = System.Net.HttpStatusCode.OK.ToString()
+                //};
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
     }

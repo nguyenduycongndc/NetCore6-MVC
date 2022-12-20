@@ -420,3 +420,22 @@ function SendEmailSuccess(rspn) {
         toastr.error(rspn.message);
     }
 }
+function ImportFile() {
+
+    var input = document.getElementById('fileToImport');
+
+    if (input.files && input.files[0]) {
+        var ext = $('#fileToImport').val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['xlsx', 'xls']) == -1) {
+            toastr.error(localizationResources.ExcelAllow, "Error!", { progressBar: true });
+            return;
+        }
+        var formData = new FormData();
+        var imageFile = input.files[0];
+        formData.append("file", imageFile);
+
+        callUpload(apiConfig.api.sendmail.controller,
+            apiConfig.api.sendmail.action.importexcel.path,
+            formData, 'viewDataUpload', 'updateFail');
+    }
+}

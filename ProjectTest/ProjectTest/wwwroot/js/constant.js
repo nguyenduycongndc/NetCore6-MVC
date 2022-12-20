@@ -125,6 +125,10 @@ var apiConfig = {
                 "sendemail": {
                     "method": "POST",
                     "path": "/SendEmail"
+                },
+                "importexcel": {
+                    "method": "POST",
+                    "path": "/ImportExcel"
                 }
             }
         },
