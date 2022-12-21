@@ -11,6 +11,15 @@
             };
             return detailUs;
         }
+        public static ResultImportModel UnauthorImport()
+        {
+            var detailUs = new ResultImportModel()
+            {
+                Message = "Unauthorized",
+                Code = 401,
+            };
+            return detailUs;
+        }
     }
     
 }

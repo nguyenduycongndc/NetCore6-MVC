@@ -99,7 +99,6 @@
         }
     }
     function SaveClick() {
-        debugger;
         var obj = {
             'Id': @currentuser.Id,
             'PassWordOld': $('#PassWordOld').val().trim(),
@@ -123,7 +122,6 @@
     }
 
     function changePassWordSuccess(data) {
-        debugger;
         if (data != false) {
             toastr.success("Thay đổi mật khẩu thành công");
             $('#modalChangePassWord').modal('hide');

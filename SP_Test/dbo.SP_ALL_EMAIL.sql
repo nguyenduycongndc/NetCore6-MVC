@@ -28,8 +28,8 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-	IF (@start_number < 1)
-		SELECT @start_number = 1;
+	--IF (@start_number < 1)
+	--	SELECT @start_number = 1;
     
 	SELECT * from [dbo].[email] as E
 		WHERE 
@@ -37,7 +37,8 @@ BEGIN
 				or E.email_address LIKE N'%' + @email_address + '%'
 				and E.is_deleted = '0'
 		ORDER BY id
-		OFFSET @page_size * (@start_number - 1) ROWS
+		OFFSET @start_number ROWS
+		--OFFSET @page_size * (@start_number - 1) ROWS
 		FETCH NEXT @page_size ROWS ONLY;
 END
 GO

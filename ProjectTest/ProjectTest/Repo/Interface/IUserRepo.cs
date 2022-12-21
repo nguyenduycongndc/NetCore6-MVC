@@ -14,6 +14,7 @@ namespace ProjectTest.Repo.Interface
         List<Users> CheckEmailUser(string email);
         List<Users> CheckAllEmailUser();
         List<Users> CheckOTP(checkOTPModel checkOTPModel);
+        Task<List<Users>> CheckAllUser();
         Task<bool> UpdateUs(UserUpdateModel user);
         Task<bool> UpdateOTPUs(UserUpdateOTPModel userUpdateOTPModel);
         Task<bool> DeleteUs(int id, CurrentUserModel _userInfo);

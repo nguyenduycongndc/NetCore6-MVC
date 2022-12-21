@@ -64,7 +64,7 @@ namespace ProjectTest.Controllers
                     };
                     return data;
                 }
-                else if(sendMailRs == false)
+                else if (sendMailRs == false)
                 {
                     var data = new ResultModel()
                     {
@@ -208,7 +208,29 @@ namespace ProjectTest.Controllers
                 return data;
             }
         }
-
+        [HttpPut]
+        [Route("UpdateEmail")]
+        public async Task<ResultModel> UpdateEmail(EmailUpModel emailDeModel)
+        {
+            try
+            {
+                if (HttpContext.Items["UserInfo"] is not CurrentUserModel _userInfo)
+                {
+                    return ResUnAuthorized.Unauthor();
+                }
+                return await _sendMailService.UpdateEmailS(emailDeModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                var data = new ResultModel()
+                {
+                    Message = "Not Found",
+                    Code = 404,
+                };
+                return data;
+            }
+        }
         [HttpGet]
         [Route("DetailEmail")]
         public ResultModel DetailEmail(int id)
@@ -258,13 +280,14 @@ namespace ProjectTest.Controllers
         //import excel
         [HttpPost]
         [Route("ImportExcel"), DisableRequestSizeLimit]
-        public ResultModel ImportExcel(IFormFile file)
+        public async Task<ResultImportModel> ImportExcel(IFormFile file)
         {
             try
             {
-                //var fileextension = Path.GetExtension(file.FileName);
-                //var filename = Guid.NewGuid().ToString() + fileextension;
-                //var filepath = Path.Combine(_contentFolder, filename);
+                if (HttpContext.Items["UserInfo"] is not CurrentUserModel _userInfo)
+                {
+                    return ResUnAuthorized.UnauthorImport();
+                }
                 var filepath = Path.Combine(_contentFolder, file.FileName);
                 using (FileStream fs = System.IO.File.Create(filepath))
                 {
@@ -274,47 +297,89 @@ namespace ProjectTest.Controllers
                 XLWorkbook workbook = XLWorkbook.OpenFromTemplate(filepath);
                 var sheets = workbook.Worksheets.First();
                 var rows = sheets.Rows().ToList();
+                var checkStatusT = new List<ResultModel>();
+                var dataRs = new ResultImportModel();
                 foreach (var row in rows)
                 {
-                    if (rowno != 1)
+                    if (rowno > 2)
                     {
                         var test = row.Cell(1).Value.ToString();
                         if (string.IsNullOrWhiteSpace(test) || string.IsNullOrEmpty(test))
                         {
                             break;
                         }
-                        var allEmail = _emailRepo.CheckAllEmail();
-                        //email = _context.Email.Where(s => s.Name == row.Cell(1).Value.ToString()).FirstOrDefault();
-                        if (allEmail == null)
+                        Email email;
+                        var allEmail = await _emailRepo.CheckAllEmail();
+                        email = allEmail.FirstOrDefault();
+                        if (allEmail != null)
                         {
-                            allEmail = new List<Email>();
+                            email = new Email();
                         }
-                        //allEmail.Name = row.Cell(1).Value.ToString();
-                        //student.Class = row.Cell(2).Value.ToString();
-                        //state.Roll_No = row.Cell(3).Value.ToString();
-                        //if (student.Id == Guid.Empty)
-                        //    _context.Students.Add(student);
-                        //else
-                        //    _context.Students.Update(student);
+                        email.EmailAddress = row.Cell(2).Value.ToString();
+                        email.CC = row.Cell(3).Value.ToString();
+                        if (email.Id != 0)
+                        {
+                            EmailUpModel dt = new EmailUpModel()
+                            {
+                                Id = email.Id,
+                                email_address = email.EmailAddress,
+                                cc = email.CC,
+                            };
+                            var res = await _sendMailService.UpdateEmailS(dt);
+                            checkStatusT.Add(res);
+                        }
+                        else
+                        {
+                            CreateEmailModel dt = new CreateEmailModel()
+                            {
+                                email_address = email.EmailAddress,
+                                cc = email.CC,
+                            };
+                            var res = await _sendMailService.CreateEmailS(dt);
+                            checkStatusT.Add(res);
+                        }
                     }
                     else
                     {
-                        rowno = 2;
+                        rowno++;
                     }
                 }
-                var data = new ResultModel()
+                int faild = 0;
+                int success = 0;
+                bool checkdtrs= false;
+                string mess = string.Empty;
+                for (int i = 0; i < checkStatusT.Count; i++)
                 {
-                    Message = "Not Found",
-                    Code = 404,
-                };
-                return data;
-                //_context.SaveChanges();
-                //return new ResponseViewModel<object>
+                    faild = checkStatusT[i].Data == null ? faild += 1 : faild;
+                    success = checkStatusT[i].Data != null ? success += 1 : success;
+                    mess = $"Email faild: {faild}, Email success: {success}";
+                }
+                if(success > 0) {
+                    dataRs = new ResultImportModel()
+                    {
+                        Message = mess,
+                        Code = 200,
+                        Data = true,
+                        Count = checkStatusT.Count,
+                    };
+                }
+                else
+                {
+                    dataRs = new ResultImportModel()
+                    {
+                        Message = mess,
+                        Code = 400,
+                        Data = false,
+                        Count = checkStatusT.Count,
+                    };
+                }
+                return dataRs;
+                //var data = new ResultModel()
                 //{
-                //    Status = true,
-                //    Message = "Data Updated Successfully",
-                //    StatusCode = System.Net.HttpStatusCode.OK.ToString()
+                //    Message = "Not Found",
+                //    Code = 404,
                 //};
+                //return data;
             }
             catch (Exception e)
             {

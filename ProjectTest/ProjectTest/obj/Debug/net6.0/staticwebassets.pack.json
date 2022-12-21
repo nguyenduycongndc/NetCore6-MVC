@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\ProjectTest.bundle.scp.css"
     },
     {
+      "Id": "E:\\code\\NetCore6-MVC\\ProjectTest\\ProjectTest\\wwwroot\\UploadFile\\Danh sách email (16).xlsx",
+      "PackagePath": "staticwebassets\\UploadFile\\Danh sách email (16).xlsx"
+    },
+    {
+      "Id": "E:\\code\\NetCore6-MVC\\ProjectTest\\ProjectTest\\wwwroot\\UploadFile\\Danh sách email.xlsx",
+      "PackagePath": "staticwebassets\\UploadFile\\Danh sách email.xlsx"
+    },
+    {
       "Id": "E:\\code\\NetCore6-MVC\\ProjectTest\\ProjectTest\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

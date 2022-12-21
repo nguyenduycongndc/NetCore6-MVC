@@ -181,6 +181,7 @@ function onSearch() {
     var obj = {
         'email_address': $('#EmailAddress').val(),
         'page_size': parseInt($("#cbPageSize").val()),
+        //'start_number': parseInt($("#txtCurrentPage").val())
         'start_number': (parseInt($("#txtCurrentPage").val()) - 1) * parseInt($("#cbPageSize").val())
     }
     callApi_userservice(
@@ -422,20 +423,31 @@ function SendEmailSuccess(rspn) {
 }
 function ImportFile() {
 
-    var input = document.getElementById('fileToImport');
+    if (validateRequired('#formView')) {
+        var input = document.getElementById('fileToImport');
+        if (input.files && input.files[0]) {
+            var ext = $('#fileToImport').val().split('.').pop().toLowerCase();
+            if ($.inArray(ext, ['xlsx', 'xls']) == -1) {
+                toastr.error(localizationResources.ExcelAllow, "Error!", { progressBar: true });
+                return;
+            }
+            var formData = new FormData();
+            var imageFile = input.files[0];
+            formData.append("file", imageFile);
 
-    if (input.files && input.files[0]) {
-        var ext = $('#fileToImport').val().split('.').pop().toLowerCase();
-        if ($.inArray(ext, ['xlsx', 'xls']) == -1) {
-            toastr.error(localizationResources.ExcelAllow, "Error!", { progressBar: true });
-            return;
+            callUpload(apiConfig.api.sendmail.controller,
+                apiConfig.api.sendmail.action.importexcel.path,
+                formData, 'viewDataUpload', 'updateFail');
         }
-        var formData = new FormData();
-        var imageFile = input.files[0];
-        formData.append("file", imageFile);
+    }
 
-        callUpload(apiConfig.api.sendmail.controller,
-            apiConfig.api.sendmail.action.importexcel.path,
-            formData, 'viewDataUpload', 'updateFail');
+}
+function viewDataUpload(rspn) {
+    if (rspn.data === true) {
+        toastr.success(rspn.message);
+        onSearch();
+    }
+    else {
+        toastr.error(rspn.message);
     }
 }

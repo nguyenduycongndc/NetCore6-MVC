@@ -2,6 +2,7 @@
 using ProjectTest.Common;
 using ProjectTest.Data;
 using ProjectTest.Model;
+using ProjectTest.Repo;
 using ProjectTest.Repo.Interface;
 using ProjectTest.Services.Interface;
 using System.Text;
@@ -23,6 +24,7 @@ namespace ProjectTest.Services
         }
         public async Task<ResultModel> GetAllUser(SearchUserModel searchUserModel)
         {
+            var lst = await userRepo.CheckAllUser();
             var qr = await userRepo.GetAll(searchUserModel);
             var listUser = qr.Select(x => new UserModel()
             {
@@ -37,7 +39,7 @@ namespace ProjectTest.Services
                 Data = listUser,
                 Message = "Successfull",
                 Code = 200,
-                Count = listUser.Count(),
+                Count = lst.Count(),
             };
             //var data = new ResultModel()
             //{

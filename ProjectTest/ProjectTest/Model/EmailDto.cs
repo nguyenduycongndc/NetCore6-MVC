@@ -46,4 +46,16 @@ namespace ProjectTest.Model
         public string? body { get; set;} 
         public int? checkauto { get; set;} 
     }
+    public class EmailUpdateModel
+    {
+        public int Id { get; set; }
+        public string email_address { get; set; }
+        public string? cc { get; set; }
+    }
+    public class EmailUpModel
+    {
+        public int Id { get; set; }
+        public string email_address { get; set; }
+        public string? cc { get; set; }
+    }
 }

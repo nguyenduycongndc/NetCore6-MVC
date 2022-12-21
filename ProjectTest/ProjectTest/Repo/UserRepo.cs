@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using DocumentFormat.OpenXml.InkML;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ProjectTest.Data;
 using ProjectTest.Model;
@@ -169,6 +170,13 @@ namespace ProjectTest.Repo
                 new SqlParameter { ParameterName = "@otp", Value = checkOTPModel.OTP },
             };
             list = context.Users.FromSqlRaw<Users>(sql, parms.ToArray()).ToList();
+            return list;
+        }
+        public async Task<List<Users>> CheckAllUser()
+        {
+            List<Users> list;
+            string sql = "EXEC SP_CHECK_ALL_USER";
+            list = context.Users.FromSqlRaw<Users>(sql).ToList();
             return list;
         }
         #endregion

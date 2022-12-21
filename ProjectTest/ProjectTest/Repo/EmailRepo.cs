@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using DocumentFormat.OpenXml.InkML;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ProjectTest.Data;
 using ProjectTest.Model;
@@ -111,13 +112,34 @@ namespace ProjectTest.Repo
             }
         }
 
-        public List<Email> CheckAllEmail()
+        public async Task<List<Email>> CheckAllEmail()
         {
             //return null;
             List<Email> list;
             string sql = "EXEC SP_CHECK_ALL_EMAIL";
             list = _context.Email.FromSqlRaw<Email>(sql).ToList();
             return list;
+        }
+        public async Task<bool> UpdateEmail(EmailUpdateModel emailModel)
+        {
+            try
+            {
+                string sql = "EXECUTE SP_UPDATE_EMAIL @id, @email_address, @cc";
+
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@id", Value = emailModel.Id },
+                    new SqlParameter { ParameterName = "@email_address", Value = emailModel.email_address },
+                    new SqlParameter { ParameterName = "@cc", Value = emailModel.cc },
+                };
+
+                var dt = await _context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

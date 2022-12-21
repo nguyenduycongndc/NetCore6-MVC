@@ -1,4 +1,6 @@
-﻿using ProjectTest.Common;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using ProjectTest.Common;
+using ProjectTest.Data;
 using ProjectTest.Model;
 using ProjectTest.Repo;
 using ProjectTest.Repo.Interface;
@@ -131,6 +133,7 @@ namespace ProjectTest.Services
             try
             {
                 var qr = await _emailRepo.GetAllEmail(emailSearchModel);
+                var lst = await _emailRepo.CheckAllEmail();
                 var listData =  qr.Select(x => new EmailDataModel()
                 {
                     Id = x.Id,
@@ -143,7 +146,7 @@ namespace ProjectTest.Services
                     Data = listData,
                     Message = "Successfull",
                     Code = 200,
-                    Count = listData.Count(),
+                    Count = lst.Count(),
                 };
                 return data;
             }
@@ -167,7 +170,7 @@ namespace ProjectTest.Services
                     };
                     return Result;
                 }
-                if (creaetEmailModel.email_address == "" || creaetEmailModel.email_address == null)
+                if (string.IsNullOrEmpty(creaetEmailModel.email_address))
                 {
                     Result = new ResultModel()
                     {
@@ -183,6 +186,58 @@ namespace ProjectTest.Services
                     cc = creaetEmailModel.cc,
                 };
                 var rs = await _emailRepo.CreateEmailR(Em);
+                Result = new ResultModel()
+                {
+                    Data = rs,
+                    Message = (rs == true ? "OK" : "Bad Request"),
+                    Code = (rs == true ? 200 : 400),
+                };
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+        public async Task<ResultModel> UpdateEmailS(EmailUpModel emailDeModel)
+        {
+            try
+            {
+                var checkEmail = new List<Email>();
+                var checkEmailDe = _emailRepo.GetDetailEmailR(emailDeModel.Id);
+                if (string.IsNullOrEmpty(emailDeModel.email_address) && emailDeModel.email_address != checkEmailDe[0].EmailAddress)
+                {
+                    checkEmail = _emailRepo.CheckEmail(emailDeModel.email_address);
+                    if (checkEmail.Count() != 0)
+                    {
+                        _logger.LogError("Email này đã được sử dụng");
+                        Result = new ResultModel()
+                        {
+                            Message = "Not Found",
+                            Code = 404,
+                        };
+                        return Result;
+                    }
+                }
+                if (checkEmail.Count() == 0)
+                {
+                    _logger.LogError("Tài khoản không tồn tại");
+                    Result = new ResultModel()
+                    {
+                        Message = "Not Found",
+                        Code = 404,
+                    };
+                    return Result;
+                }
+
+                EmailUpdateModel us = new EmailUpdateModel()
+                {
+                    Id = emailDeModel.Id,
+                    email_address = emailDeModel.email_address,
+                    cc = emailDeModel.cc,
+                };
+                var rs = await _emailRepo.UpdateEmail(us);
                 Result = new ResultModel()
                 {
                     Data = rs,

@@ -12,5 +12,6 @@ namespace ProjectTest.Services.Interface
         public Task<ResultModel> DeleteEmail(int id, CurrentUserModel _userInfo);
         public Task<ResultModel> SaveDataEmailS(DataEmailModel dataEmailModel, CurrentUserModel _userInfo);
         public Task<ResultModel> DataEmailDetailS();
+        public Task<ResultModel> UpdateEmailS(EmailUpModel emailDeModel);
     }
 }
