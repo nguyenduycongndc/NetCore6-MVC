@@ -22,6 +22,7 @@ namespace ProjectTest.Services
             this.userRepo = userRepo;
             _logger = logger;
         }
+        #region Get All Data
         public async Task<ResultModel> GetAllUser(SearchUserModel searchUserModel)
         {
             var lst = await userRepo.CheckAllUser();
@@ -68,6 +69,9 @@ namespace ProjectTest.Services
             };
             return data;
         }
+        #endregion
+
+        #region Create
         public async Task<ResultModel> CreateUser(CreateModel input, CurrentUserModel _userInfo)
         {
             try
@@ -136,6 +140,7 @@ namespace ProjectTest.Services
                 return Result;
             }
         }
+        #endregion
         //public CurrentUserModel GetDetailModels(int Id)
         //{
         //    try
@@ -160,6 +165,8 @@ namespace ProjectTest.Services
         //        return null;
         //    }
         //}
+
+        #region Detail
         public ResultModel GetDetailModels(int Id)
         {
             try
@@ -197,10 +204,13 @@ namespace ProjectTest.Services
                 return Result;
             }
         }
+        #endregion
         //public static string EncodeServerName(string serverName)
         //{
         //    return Convert.ToBase64String(Encoding.UTF8.GetBytes(serverName));
         //}
+
+        #region Update
         public async Task<ResultModel> UpdateUser(UpdateModel updateModel, CurrentUserModel _userInfo)
         {
             try
@@ -255,6 +265,9 @@ namespace ProjectTest.Services
                 return Result;
             }
         }
+        #endregion
+
+        #region Delete
         public async Task<ResultModel> DeleteUser(int id, CurrentUserModel _userInfo)
         {
             try
@@ -285,6 +298,9 @@ namespace ProjectTest.Services
                 return Result;
             }
         }
+        #endregion
+
+        #region Change PassWord login
         public async Task<ResultModel> ChangePassWordService(ChangePassWordLoginModel input)
         {
             try
@@ -354,5 +370,6 @@ namespace ProjectTest.Services
                 return Result;
             }
         }
+        #endregion
     }
 }

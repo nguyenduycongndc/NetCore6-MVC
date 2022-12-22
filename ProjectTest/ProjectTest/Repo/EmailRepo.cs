@@ -19,6 +19,7 @@ namespace ProjectTest.Repo
         //{
         //    return _context.Email.ToList();
         //}
+        #region Search
         public async Task<List<Email>> GetAllEmail(EmailSearchModel emailSearchModel)
         {
             List<Email> list;
@@ -39,6 +40,8 @@ namespace ProjectTest.Repo
                 throw ex;
             }
         }
+        #endregion
+        #region check
         public List<Email> CheckEmail(string email)
         {
             List<Email> list;
@@ -53,6 +56,15 @@ namespace ProjectTest.Repo
             list = _context.Email.FromSqlRaw<Email>(sql, parms.ToArray()).ToList();
             return list;
         }
+        public async Task<List<Email>> CheckAllEmail()
+        {
+            //return null;
+            List<Email> list;
+            string sql = "EXEC SP_CHECK_ALL_EMAIL";
+            list = _context.Email.FromSqlRaw<Email>(sql).ToList();
+            return list;
+        }
+        #endregion
         #region Create
         public async Task<bool> CreateEmailR(EmailCrModel cre)
         {
@@ -76,6 +88,7 @@ namespace ProjectTest.Repo
             }
         }
         #endregion
+        #region Detail
         public List<Email> GetDetailEmailR(int id)
         {
             List<Email> list;
@@ -90,7 +103,8 @@ namespace ProjectTest.Repo
             list = _context.Email.FromSqlRaw<Email>(sql, parms.ToArray()).ToList();
             return list;
         }
-
+        #endregion
+        #region Delete
         public async Task<bool> DeleteEmailR(int id, CurrentUserModel _userInfo)
         {
             try
@@ -111,15 +125,8 @@ namespace ProjectTest.Repo
                 throw ex;
             }
         }
-
-        public async Task<List<Email>> CheckAllEmail()
-        {
-            //return null;
-            List<Email> list;
-            string sql = "EXEC SP_CHECK_ALL_EMAIL";
-            list = _context.Email.FromSqlRaw<Email>(sql).ToList();
-            return list;
-        }
+        #endregion
+        #region Update
         public async Task<bool> UpdateEmail(EmailUpdateModel emailModel)
         {
             try
@@ -141,5 +148,6 @@ namespace ProjectTest.Repo
                 throw ex;
             }
         }
+        #endregion
     }
 }

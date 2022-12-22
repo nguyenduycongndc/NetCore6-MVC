@@ -30,6 +30,7 @@ namespace ProjectTest.Services
             _emailRepo = emailRepo;
             _dataemailRepo = dataemailRepo;
         }
+        #region Send Mail
         public Task<bool> SendMailAsync(EmailDto emailDto)
         {
             try
@@ -82,6 +83,8 @@ namespace ProjectTest.Services
                 throw;
             }
         }
+        #endregion
+        #region Send OTP
         public bool SendMailOTPAsync(string email)
         {
             try
@@ -128,6 +131,8 @@ namespace ProjectTest.Services
                 throw;
             }
         }
+        #endregion
+        #region Get All Email
         public async Task<ResultModel> GetAllEmailService(EmailSearchModel emailSearchModel)
         {
             try
@@ -155,6 +160,8 @@ namespace ProjectTest.Services
                 throw;
             }
         }
+        #endregion
+        #region Create
         public async Task<ResultModel> CreateEmailS(CreateEmailModel creaetEmailModel)
         {
             try
@@ -200,6 +207,8 @@ namespace ProjectTest.Services
                 return Result;
             }
         }
+        #endregion
+        #region Update
         public async Task<ResultModel> UpdateEmailS(EmailUpModel emailDeModel)
         {
             try
@@ -252,6 +261,62 @@ namespace ProjectTest.Services
                 return Result;
             }
         }
+        #endregion
+        #region Delete
+        public async Task<ResultModel> DeleteEmail(int id, CurrentUserModel _userInfo)
+        {
+            try
+            {
+                var checkUser = _emailRepo.GetDetailEmailR(id);
+                if (checkUser.Count() == 0)
+                {
+                    _logger.LogError("Email này không tồn tại");
+                    Result = new ResultModel()
+                    {
+                        Message = "Not Found",
+                        Code = 404,
+                    };
+                    return Result;
+                }
+                var rs = await _emailRepo.DeleteEmailR(id, _userInfo);
+                Result = new ResultModel()
+                {
+                    Data = rs,
+                    Message = (rs == true ? "OK" : "Bad Request"),
+                    Code = (rs == true ? 200 : 400),
+                };
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+        #endregion
+        #region Save Data Email
+        public async Task<ResultModel> SaveDataEmailS(DataEmailModel dataEmailModel, CurrentUserModel _userInfo)
+        {
+            try
+            {
+                var checkDataEmail = _dataemailRepo.CheckDataEmail();
+                var rs = await _dataemailRepo.CrUpDataEmail(dataEmailModel, _userInfo);
+                Result = new ResultModel()
+                {
+                    Data = rs,
+                    Message = (rs != null ? "OK" : "Bad Request"),
+                    Code = (rs != null ? 200 : 400),
+                };
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+        #endregion
+        #region Detail 
         public ResultModel GetDetailEmailModels(int Id)
         {
             try
@@ -286,57 +351,6 @@ namespace ProjectTest.Services
                 return Result;
             }
         }
-        public async Task<ResultModel> DeleteEmail(int id, CurrentUserModel _userInfo)
-        {
-            try
-            {
-                var checkUser = _emailRepo.GetDetailEmailR(id);
-                if (checkUser.Count() == 0)
-                {
-                    _logger.LogError("Email này không tồn tại");
-                    Result = new ResultModel()
-                    {
-                        Message = "Not Found",
-                        Code = 404,
-                    };
-                    return Result;
-                }
-                var rs = await _emailRepo.DeleteEmailR(id, _userInfo);
-                Result = new ResultModel()
-                {
-                    Data = rs,
-                    Message = (rs == true ? "OK" : "Bad Request"),
-                    Code = (rs == true ? 200 : 400),
-                };
-                return Result;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return Result;
-            }
-        }
-
-        public async Task<ResultModel> SaveDataEmailS(DataEmailModel dataEmailModel, CurrentUserModel _userInfo)
-        {
-            try
-            {
-                var checkDataEmail = _dataemailRepo.CheckDataEmail();
-                var rs = await _dataemailRepo.CrUpDataEmail(dataEmailModel, _userInfo);
-                Result = new ResultModel()
-                {
-                    Data = rs,
-                    Message = (rs != null ? "OK" : "Bad Request"),
-                    Code = (rs != null ? 200 : 400),
-                };
-                return Result;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return Result;
-            }
-        }
         public async Task<ResultModel> DataEmailDetailS()
         {
             try
@@ -357,5 +371,6 @@ namespace ProjectTest.Services
                 return Result;
             }
         }
+        #endregion
     }
 }
