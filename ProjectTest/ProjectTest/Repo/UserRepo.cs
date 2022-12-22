@@ -69,12 +69,13 @@ namespace ProjectTest.Repo
         {
             try
             {
-                string sql = "EXECUTE SP_CREATE_USER @user_name, @role_id, @password, @salt, @created_by";
+                string sql = "EXECUTE SP_CREATE_USER @user_name, @email_address, @role_id, @password, @salt, @created_by";
 
                 List<SqlParameter> parms = new List<SqlParameter>
                 { 
                     // Create parameters    
                     new SqlParameter { ParameterName = "@user_name", Value = user.UserName },
+                    new SqlParameter { ParameterName = "@email_address", Value = user.EmailAddress },
                     new SqlParameter { ParameterName = "@role_id", Value = user.RoleId },
                     new SqlParameter { ParameterName = "@password", Value = user.PassWord },
                     new SqlParameter { ParameterName = "@salt", Value = user.SaltKey },

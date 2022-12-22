@@ -25,13 +25,13 @@ function UnitTypeActive(id, input) {
 }
 function updateUserSuccess(data) {
     if (data != false) {
-        toastr.success("Thêm mới thành công");
+        toastr.success("Cập nhật thành công");
         setTimeout(function () {
             openView(0, 0)
         }, 2000);
     }
     else {
-        toastr.error("Thêm mới thất bại");
+        toastr.error("Cập nhật thất bại");
         //setTimeout(function () { toastr.error(getStatusCode(data.code), 'Error', { progressBar: true }) }, 70);
     }
 }
@@ -248,6 +248,7 @@ function submitCreate() {
     var obj = {
         'UserName': $('#userNameCreate').val().trim(),
         'RoleId': $('#roleCreate').val(),
+        'EmailAddress': $('#emailCreate').val() != '' ? $('#emailCreate').val().trim() : '',
         'Password': $('#passwordCreate').val() != '' ? $('#passwordCreate').val().trim() : '',
     }
     if (validateRequired('#formCreate')) {

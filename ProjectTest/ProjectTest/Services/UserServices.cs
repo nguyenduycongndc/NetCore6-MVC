@@ -70,7 +70,6 @@ namespace ProjectTest.Services
             return data;
         }
         #endregion
-
         #region Create
         public async Task<ResultModel> CreateUser(CreateModel input, CurrentUserModel _userInfo)
         {
@@ -120,6 +119,7 @@ namespace ProjectTest.Services
                 UserCreateModel us = new UserCreateModel()
                 {
                     UserName = input.UserName.Trim(),
+                    EmailAddress = input.EmailAddress.Trim(),
                     PassWord = hashedPassword,
                     SaltKey = salt,
                     RoleId = input.RoleId,
@@ -165,7 +165,6 @@ namespace ProjectTest.Services
         //        return null;
         //    }
         //}
-
         #region Detail
         public ResultModel GetDetailModels(int Id)
         {
@@ -209,7 +208,6 @@ namespace ProjectTest.Services
         //{
         //    return Convert.ToBase64String(Encoding.UTF8.GetBytes(serverName));
         //}
-
         #region Update
         public async Task<ResultModel> UpdateUser(UpdateModel updateModel, CurrentUserModel _userInfo)
         {
@@ -266,7 +264,6 @@ namespace ProjectTest.Services
             }
         }
         #endregion
-
         #region Delete
         public async Task<ResultModel> DeleteUser(int id, CurrentUserModel _userInfo)
         {
@@ -299,7 +296,6 @@ namespace ProjectTest.Services
             }
         }
         #endregion
-
         #region Change PassWord login
         public async Task<ResultModel> ChangePassWordService(ChangePassWordLoginModel input)
         {

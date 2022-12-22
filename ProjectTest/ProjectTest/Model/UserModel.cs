@@ -39,6 +39,7 @@ namespace ProjectTest.Model
     {
         public string? UserName { get; set; }
         public string? Password { get; set; }
+        public string? EmailAddress { get; set; }
         public int RoleId { get; set; }
     }
     public class LoginModel
@@ -57,6 +58,7 @@ namespace ProjectTest.Model
     public class UserCreateModel
     {
         public string UserName { get; set; }
+        public string EmailAddress { get; set; }
         public string PassWord { get; set; }
         public string SaltKey { get; set; }
         public int RoleId { get; set; }
