@@ -1,14 +1,6 @@
--- ================================================
--- Template generated from Template Explorer using:
--- Create Procedure (New Menu).SQL
---
--- Use the Specify Values for Template Parameters 
--- command (Ctrl-Shift-M) to fill in the parameter 
--- values below.
---
--- This block of comments will not be included in
--- the definition of the procedure.
--- ================================================
+USE [DB_TEST_BA]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DELETE_EMAIL]    Script Date: 2023/02/27 9:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -18,7 +10,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[SP_DELETE_EMAIL]
+ALTER PROCEDURE [dbo].[SP_DELETE_EMAIL]
 	-- Add the parameters for the stored procedure here
 	@id int,
 	@deleted_by int
@@ -49,4 +41,3 @@ BEGIN
 			select @Result as Rs
 		END
 END
-GO

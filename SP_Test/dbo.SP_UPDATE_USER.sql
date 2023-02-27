@@ -1,14 +1,6 @@
--- ================================================
--- Template generated from Template Explorer using:
--- Create Procedure (New Menu).SQL
---
--- Use the Specify Values for Template Parameters 
--- command (Ctrl-Shift-M) to fill in the parameter 
--- values below.
---
--- This block of comments will not be included in
--- the definition of the procedure.
--- ================================================
+USE [DB_TEST_BA]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_UPDATE_USER]    Script Date: 2023/02/27 9:03:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -31,7 +23,7 @@ BEGIN
 	-- interfering with SELECT statements.
 	declare @Result bit;
 	SET NOCOUNT ON;
-	If exists (SELECT * FROM users WHERE id = @id and is_deleted <> 1)
+	If exists (SELECT * FROM users WHERE id = @id and (is_deleted <> 1 or is_deleted is null))
     -- Insert statements for procedure here
 	BEGIN
 			UPDATE users
@@ -42,7 +34,7 @@ BEGIN
 						users.modified_at = GETDATE(),
 						users.modified_by = @modified_by
 					from users 
-					WHERE users.id = @id and is_deleted <> 1
+					WHERE users.id = @id and (is_deleted <> 1 or is_deleted is null)
 			BEGIN
 				set @Result = 1;
 				select @Result as Rs
@@ -54,4 +46,3 @@ BEGIN
 			select @Result as Rs
 		END
 END
-GO

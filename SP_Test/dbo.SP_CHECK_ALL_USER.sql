@@ -1,14 +1,6 @@
--- ================================================
--- Template generated from Template Explorer using:
--- Create Procedure (New Menu).SQL
---
--- Use the Specify Values for Template Parameters 
--- command (Ctrl-Shift-M) to fill in the parameter 
--- values below.
---
--- This block of comments will not be included in
--- the definition of the procedure.
--- ================================================
+USE [DB_TEST_BA]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_CHECK_ALL_USER]    Script Date: 2023/02/27 8:56:49 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -18,7 +10,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[SP_CHECK_ALL_USER] 
+ALTER PROCEDURE [dbo].[SP_CHECK_ALL_USER] 
 	-- Add the parameters for the stored procedure here
 AS
 BEGIN
@@ -31,4 +23,3 @@ BEGIN
 	where U.is_active = 1
 	and (ISNULL(U.is_deleted, 0) <> 1)
 END
-GO
