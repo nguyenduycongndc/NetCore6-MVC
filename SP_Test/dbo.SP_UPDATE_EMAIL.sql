@@ -1,6 +1,6 @@
 USE [DB_TEST_BA]
 GO
-/****** Object:  StoredProcedure [dbo].[SP_UPDATE_USER_OTP]    Script Date: 2023/02/27 9:03:48 ******/
+/****** Object:  StoredProcedure [dbo].[SP_UPDATE_EMAIL]    Script Date: 2023/02/27 9:03:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -10,27 +10,29 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-ALTER PROCEDURE [dbo].[SP_UPDATE_USER_OTP] 
+ALTER PROCEDURE [dbo].[SP_UPDATE_EMAIL] 
 	-- Add the parameters for the stored procedure here
-	@email nvarchar(MAX), 
-	@otp int, 
-	@expdate datetime
+	@id int, 
+	@email_address nvarchar(Max), 
+	@cc nvarchar(Max)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
 	declare @Result bit;
 	SET NOCOUNT ON;
-	If exists (SELECT * FROM users WHERE email = @email)
+	If exists (SELECT * FROM users WHERE id = @id and (is_deleted <> 1 or is_deleted is null))
     -- Insert statements for procedure here
 	BEGIN
-			UPDATE users
+			UPDATE email
 					set 
-						users.email = @email,
-						users.otp = @otp,
-						users.expiration_date_otp = @expdate
-					from users 
-					WHERE users.email = @email
+						email.email_address = @email_address,
+						email.cc = @cc
+					from email 
+					WHERE email.id = @id and (is_deleted <> 1 or is_deleted is null)
 			BEGIN
 				set @Result = 1;
 				select @Result as Rs

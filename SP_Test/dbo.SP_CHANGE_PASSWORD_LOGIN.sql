@@ -1,6 +1,6 @@
 USE [DB_TEST_BA]
 GO
-/****** Object:  StoredProcedure [dbo].[SP_UPDATE_USER_OTP]    Script Date: 2023/02/27 9:03:48 ******/
+/****** Object:  StoredProcedure [dbo].[SP_CHANGE_PASSWORD_LOGIN]    Script Date: 2023/02/27 8:55:25 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -10,27 +10,29 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-ALTER PROCEDURE [dbo].[SP_UPDATE_USER_OTP] 
+ALTER PROCEDURE [dbo].[SP_CHANGE_PASSWORD_LOGIN] 
 	-- Add the parameters for the stored procedure here
-	@email nvarchar(MAX), 
-	@otp int, 
-	@expdate datetime
+	@id nvarchar(MAX),
+	@passwordnew nvarchar(MAX),
+	@salt nvarchar(MAX)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	declare @Result bit;
 	SET NOCOUNT ON;
-	If exists (SELECT * FROM users WHERE email = @email)
+	If exists (SELECT * FROM users WHERE id = @id)
     -- Insert statements for procedure here
 	BEGIN
 			UPDATE users
 					set 
-						users.email = @email,
-						users.otp = @otp,
-						users.expiration_date_otp = @expdate
+						users.modified_at = GETDATE(),
+						users.otp = null,
+						users.expiration_date_otp = null,
+						users.password = @passwordnew,
+						users.salt = @salt
 					from users 
-					WHERE users.email = @email
+					WHERE users.id = @id
 			BEGIN
 				set @Result = 1;
 				select @Result as Rs
