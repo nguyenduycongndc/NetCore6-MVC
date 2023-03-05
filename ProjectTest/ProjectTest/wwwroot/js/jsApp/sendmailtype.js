@@ -197,14 +197,24 @@ function onSearch() {
         obj, 'fnDataEmailSuccess', 'msgError');
 }
 function fnDataEmailSuccess(rspn) {
-    var frmDataEmail = $("#formDataEmail");
-    frmDataEmail.find("#Subject").val(rspn.data.subject);
-    rspn.data.check_auto == 1 ? $("#checkBoxStatus").prop('checked', true) : $("#checkBoxStatus").prop('checked', false);
-    if (CKEDITOR.instances['BodyData']) {
-        CKEDITOR.instances['BodyData'].setData(rspn.data.body);
-        CKEDITOR.instances['BodyData'].updateElement();
-    }
-    EnableSave();
+    if (rspn.data!=null) {
+        var frmDataEmail = $("#formDataEmail");
+        frmDataEmail.find("#Subject").val(rspn.data.subject);
+        rspn.data.check_auto == 1 ? $("#checkBoxStatus").prop('checked', true) : $("#checkBoxStatus").prop('checked', false);
+        if (CKEDITOR.instances['BodyData']) {
+            CKEDITOR.instances['BodyData'].setData(rspn.data.body);
+            CKEDITOR.instances['BodyData'].updateElement();
+        }
+        EnableSave();
+    }   
+    //var frmDataEmail = $("#formDataEmail");
+    //frmDataEmail.find("#Subject").val(rspn.data.subject);
+    //rspn.data.check_auto == 1 ? $("#checkBoxStatus").prop('checked', true) : $("#checkBoxStatus").prop('checked', false);
+    //if (CKEDITOR.instances['BodyData']) {
+    //    CKEDITOR.instances['BodyData'].setData(rspn.data.body);
+    //    CKEDITOR.instances['BodyData'].updateElement();
+    //}
+    //EnableSave();
 }
 function fnDeleteSuccess(rspn) {
     swal({
@@ -274,15 +284,27 @@ function submitCreate() {
 function submitEdit() {
     var obj = {
         'Id': parseInt($('#IdEdit').val()),
-        'EmailAddress': $('#emailAddressEdit').val(),
-        'CC': $('#CCEdit').val().trim(),
+        'email_address': $('#emailAddressEdit').val(),
+        'cc': $('#CCEdit').val().trim(),
     }
     if (validateRequired('#formEdit')) {
         callApi_userservice(
             apiConfig.api.sendmail.controller,
-            apiConfig.api.sendmail.action.UpdateEmail.path,
-            apiConfig.api.sendmail.action.UpdateEmail.method,
+            apiConfig.api.sendmail.action.updateEmail.path,
+            apiConfig.api.sendmail.action.updateEmail.method,
             obj, 'updateEmailSuccess', 'msgError');
+    }
+}
+function updateEmailSuccess(data) {
+    if (data != false) {
+        toastr.success("Cập nhật thành công");
+        setTimeout(function () {
+            openView(0, 0)
+        }, 2000);
+    }
+    else {
+        toastr.error("Cập nhật thất bại");
+        //setTimeout(function () { toastr.error(getStatusCode(data.code), 'Error', { progressBar: true }) }, 70);
     }
 }
 function fnGetDetail(type, param) {

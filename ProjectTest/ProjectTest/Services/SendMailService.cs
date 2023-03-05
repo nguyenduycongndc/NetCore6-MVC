@@ -229,16 +229,16 @@ namespace ProjectTest.Services
                         return Result;
                     }
                 }
-                if (checkEmail.Count() == 0)
-                {
-                    _logger.LogError("Tài khoản không tồn tại");
-                    Result = new ResultModel()
-                    {
-                        Message = "Not Found",
-                        Code = 404,
-                    };
-                    return Result;
-                }
+                //if (checkEmail.Count() == 0)
+                //{
+                //    _logger.LogError("Tài khoản không tồn tại");
+                //    Result = new ResultModel()
+                //    {
+                //        Message = "Not Found",
+                //        Code = 404,
+                //    };
+                //    return Result;
+                //}
 
                 EmailUpdateModel us = new EmailUpdateModel()
                 {
