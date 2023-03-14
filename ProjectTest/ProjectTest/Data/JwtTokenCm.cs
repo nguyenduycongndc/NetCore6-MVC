@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectTest.DataAccess
+namespace ProjectTest.Data
 {
     public static class JwtTokenCm
     {

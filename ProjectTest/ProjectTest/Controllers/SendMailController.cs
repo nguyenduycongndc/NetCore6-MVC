@@ -32,14 +32,17 @@ namespace ProjectTest.Controllers
         public const string CONTEN_FOLDER_NAME_EMAIL = "FileExcelEmail.xlsx";
         public readonly string _contentFolder;
         public const string CONTEN_FOLDER_NAME = "UploadFile";
+        //public readonly string _folderFileSample;
+        //public const string FOLDER_FILE_SAMPLE = "FileSample";
         public SendMailController(ILogger<SendMailController> logger, ISendMailService sendMailService, IConfiguration config, IWebHostEnvironment webHostEnvironment, IEmailRepo emailRepo)
         {
             _logger = logger;
             _sendMailService = sendMailService;
             _config = config;
-            _contentFolderEmailSample = Path.Combine(webHostEnvironment.WebRootPath, CONTEN_FOLDER_NAME_EMAIL_SAMPLE);
-            _contentFolderEmail = Path.Combine(webHostEnvironment.WebRootPath, CONTEN_FOLDER_NAME_EMAIL);
+            _contentFolderEmailSample = Path.Combine(webHostEnvironment.WebRootPath, "FileSample\\" + CONTEN_FOLDER_NAME_EMAIL_SAMPLE);
+            _contentFolderEmail = Path.Combine(webHostEnvironment.WebRootPath, "FileSample\\" + CONTEN_FOLDER_NAME_EMAIL);
             _contentFolder = Path.Combine(webHostEnvironment.WebRootPath, CONTEN_FOLDER_NAME);
+            //_folderFileSample = Path.Combine(webHostEnvironment.WebRootPath, FOLDER_FILE_SAMPLE);
             _emailRepo = emailRepo;
         }
         [HttpGet]

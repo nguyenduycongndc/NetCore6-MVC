@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Logging;
 using ProjectTest.Services;
 using ProjectTest.Services.Interface;
-using ProjectTest.DataAccess;
+using ProjectTest.Data;
 using ProjectTest.Common;
 
 namespace ProjectTest.Attributes

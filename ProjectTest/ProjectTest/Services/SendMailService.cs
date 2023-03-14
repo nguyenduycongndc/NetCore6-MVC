@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using ProjectTest.Common;
 using ProjectTest.Data;
 using ProjectTest.Model;
@@ -9,6 +10,7 @@ using System;
 using System.Diagnostics.Metrics;
 using System.Net;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Web.Helpers;
 
 namespace ProjectTest.Services
@@ -35,6 +37,10 @@ namespace ProjectTest.Services
         {
             try
             {
+                if (string.IsNullOrEmpty(emailDto.Body) && string.IsNullOrEmpty(emailDto.Subject))
+                {
+                    return Task.FromResult(false);
+                }
                 string[] listEmail = emailDto.To.Split(",");
                 var smtpClient = new SmtpClient(_configuration.GetSection("EmailHost").Value)
                 {
@@ -145,7 +151,7 @@ namespace ProjectTest.Services
                     email_address = x.EmailAddress,
                     cc = x.CC,
                     create_at = x.CreatedAt.HasValue ? x.CreatedAt.Value.ToString("dd/MM/yyyy") : null,
-                }).OrderBy(x => x.Id).ToList();
+                }).OrderByDescending(x => x.create_at).ToList();
                 var data = new ResultModel()
                 {
                     Data = listData,
@@ -166,6 +172,20 @@ namespace ProjectTest.Services
         {
             try
             {
+                string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
+
+                bool isValidEmail = Regex.IsMatch(creaetEmailModel.email_address, regex, RegexOptions.IgnoreCase);
+                //bool isValidEmail = MailAddress.TryCreate(creaetEmailModel.email_address, out mailAddress);
+                if (!isValidEmail)
+                {
+                    _logger.LogError("Email này không đúng định dạng");
+                    Result = new ResultModel()
+                    {
+                        Message = "Email này không đúng định dạng",
+                        Code = 403,
+                    };
+                    return Result;
+                }
                 var checkEmail = _emailRepo.CheckEmail(creaetEmailModel.email_address);
                 if (checkEmail.Count() > 0)
                 {

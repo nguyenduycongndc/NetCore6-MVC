@@ -309,11 +309,18 @@ function updateEmailSuccess(data) {
 }
 function fnGetDetail(type, param) {
     var call_back = '';
+    var _CCEdit = $('#CCEdit');
+    var _emailAddressEdit = $('#emailAddressEdit');
     if (type === 3) {
         call_back = 'fnEditSuccess';
+        call_back = 'fnGetDetailSuccess';
+        _emailAddressEdit.prop('disabled', false);
+        _CCEdit.prop('disabled', false);
     }
     else if (type === 2) {
         call_back = 'fnGetDetailSuccess';
+        _emailAddressEdit.prop('disabled', true);
+        _CCEdit.prop('disabled', true);
     }
     else {
         call_back = 'fnDeleteSuccess';
