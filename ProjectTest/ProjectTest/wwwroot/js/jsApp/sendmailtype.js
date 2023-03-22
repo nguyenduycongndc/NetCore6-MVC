@@ -313,7 +313,6 @@ function fnGetDetail(type, param) {
     var _emailAddressEdit = $('#emailAddressEdit');
     if (type === 3) {
         call_back = 'fnEditSuccess';
-        call_back = 'fnGetDetailSuccess';
         _emailAddressEdit.prop('disabled', false);
         _CCEdit.prop('disabled', false);
     }
