@@ -20,6 +20,5 @@ BEGIN
 
     -- Insert statements for procedure here
 	SELECT * from users as U
-	where U.is_active = 1
-	and (ISNULL(U.is_deleted, 0) <> 1)
+	where (ISNULL(U.is_deleted, 0) <> 1)
 END
