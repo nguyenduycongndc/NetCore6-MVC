@@ -10,6 +10,7 @@ namespace ProjectTest.Services.Interface
     public interface ILoginService
     {
         public ResultModel Login(InputLoginModel inputModel);
-        public Task<ResultModel> ForgotPassWordAsync(ForgotPassWordModel forgotPassWordModel);
+        public Task<ResultModel> ForgotPassWordAsync(ForgotPassWordModel forgotPassWordModel); 
+        public Task<ResultModel> RegisterAsync(RegisterModel registerModel);
     }
 }

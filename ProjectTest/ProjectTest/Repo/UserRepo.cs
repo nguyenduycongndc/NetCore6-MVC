@@ -327,5 +327,30 @@ namespace ProjectTest.Repo
             return true;
         }
         #endregion
+        #region Register
+        public async Task<bool> Register(RegisterSaltModel registerSaltModel)
+        {
+            try
+            {
+                string sql = "EXECUTE SP_REGISTER @user_name, @password, @salt, @email";
+
+                List<SqlParameter> parms = new List<SqlParameter>
+                { 
+                    // Create parameters    
+                    new SqlParameter { ParameterName = "@user_name", Value = registerSaltModel.UserName },
+                    new SqlParameter { ParameterName = "@password", Value = registerSaltModel.Password },
+                    new SqlParameter { ParameterName = "@salt", Value = registerSaltModel.SaltKey },
+                    new SqlParameter { ParameterName = "@email", Value = registerSaltModel.Email },
+                };
+
+                var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
     }
 }
