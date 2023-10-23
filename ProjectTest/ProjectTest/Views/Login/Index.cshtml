@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="font-16 weight-600 pt-10 pb-10 text-center" data-color="#707373">OR</div>
                                 <div class="input-group mb-0">
-                                    <a class="btn btn-outline-primary btn-lg btn-block" href="register.html">Register To Create Account</a>
+                                    <a class="btn btn-outline-primary btn-lg btn-block" onclick="openModalRegister()">Register To Create Account</a>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +133,7 @@
                             Email<span class="text-danger">*</span>
                         </label>
                         <div class="col-sm-9">
-                            <input type="email" class="form-control required" id="Email" aria-label="ConfirmPassWordNew" aria-describedby="basic-addon1" @*onkeypress='validateSLEdit(event)'*@>
+                            <input type="email" class="form-control required" id="Email" aria-label="Email" aria-describedby="basic-addon1" @*onkeypress='validateSLEdit(event)'*@>
                         </div>
                     </div>
                 </form>
@@ -172,6 +172,56 @@
             </div>
             <div class="modal-footer">
                 <button href="javascript:void(0);" id="submit" class="btn btn-info" onclick="ForgotPassword()">ForgotPassword</button>
+                <button href="javascript:void(0);" class="btn btn-dark" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal hide fade" id="modalRegister" role="dialog" aria-labelledby="modalRegisterLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalRegister">Register</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formRegister" class="form-valide" action="#" method="post" style="margin-top: 20px;">
+                    <div style="padding: 15px 0px;">
+                        <div class="form-group row">
+                            <label for="UserNameRegister" class="col-sm-3 col-form-label">UserName<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control required" id="UserNameRegister" aria-label="UserName" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="PassWordRegister" class="col-sm-3 col-form-label">Password<span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control required" id="PassWordRegister" aria-label="PassWord" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="ConfirmPassWordRegister">
+                                Confirm Password<span class="text-danger">*</span>
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control required" id="ConfirmPassWordRegister" aria-label="ConfirmPassWord" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="EmailRegister">
+                                Email<span class="text-danger">*</span>
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control required" id="EmailRegister" aria-label="EmailRegister" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button href="javascript:void(0);" id="submitRegister" class="btn btn-info" onclick="Register()">Save</button>
                 <button href="javascript:void(0);" class="btn btn-dark" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -289,6 +339,47 @@
         if (data.data == true) {
             toastr.success(data.message == 'Ok' ? "Thay đổi mật khẩu thành công" : data.message);
             $('#modalForgotPassword').modal('hide');
+        }
+        else {
+            toastr.error(data.message);
+        }
+    }
+    function openModalRegister() {
+        $('#modalRegister').modal('show');
+        clearMsgInvalid();
+        $('#UserNameRegister').val("");
+        $('#PassWordRegister').val("");
+        $('#ConfirmPassWordRegister').val("");
+        $('#EmailRegister').val("");
+        hideLoading();
+    };
+    function Register() {
+        var obj = {
+            'UserName': $('#UserNameRegister').val().trim(),
+            'PassWord': $('#PassWordRegister').val().trim(),
+            'Email': $('#EmailRegister').val().trim(),
+        }
+        if (validateRequired('#formRegister')) {
+            showLoading();
+            if ($("#PassWordRegister").val().length < 6 || $("#ConfirmPassWordRegister").val().length < 6) {
+                toastr.error("Mật khẩu ít nhất 6 ký tự");
+                return false;
+            } else if ($("#PassWordRegister").val() != $("#ConfirmPassWordRegister").val()) {
+                toastr.error("Xác nhận mật khẩu không đúng");
+                return false;
+            }
+            callApi_userservice(
+                apiConfig.api.login.controller,
+                apiConfig.api.login.action.register.path,
+                apiConfig.api.login.action.register.method,
+                obj, 'registerSuccess', 'msgError');
+        }
+    }
+    function registerSuccess(data) {
+        hideLoading();
+        if (data.data == true) {
+            toastr.success(data.message == 'Ok' ? "Thêm mới tài  khoản thành công" : data.message);
+            $('#modalRegister').modal('hide');
         }
         else {
             toastr.error(data.message);

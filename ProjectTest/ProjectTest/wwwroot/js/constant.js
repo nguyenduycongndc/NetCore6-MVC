@@ -13,6 +13,10 @@ var apiConfig = {
                 "forgotpassword": {
                     "method": "POST",
                     "path": "/ForgotPassWord"
+                },
+                "register": {
+                    "method": "POST",
+                    "path": "/Register"
                 }
             }
         },
