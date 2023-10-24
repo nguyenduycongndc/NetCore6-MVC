@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oEgtutdehoVfqMcCdi30dyo0DS+ZzOSm/Qc7E72Gn6429a1ANW4mySeePQFUpeVRBSwdbX7CnRtIb9tFnZnXIA==",
+  "dgSpecHash": "jDrVA6G20T+U7kq/nFe7JAHrgNMUZhbfE2A7qWGaVnRzxxxp+5UbHaIMZwXy7NzubCQhcUNSNkkDUhbLY0uH9g==",
   "success": true,
-  "projectFilePath": "E:\\CT\\project ct\\RANT\\NetCore6-MVC\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
+  "projectFilePath": "E:\\CT\\project ct\\RANT\\www\\NetCore6-MVC\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\haicu\\.nuget\\packages\\closedxml\\0.97.0\\closedxml.0.97.0.nupkg.sha512",
     "C:\\Users\\haicu\\.nuget\\packages\\documentformat.openxml\\2.16.0\\documentformat.openxml.2.16.0.nupkg.sha512",

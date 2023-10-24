@@ -7652,11 +7652,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\CT\\project ct\\RANT\\NetCore6-MVC\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
+      "projectUniqueName": "E:\\CT\\project ct\\RANT\\www\\NetCore6-MVC\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
       "projectName": "ProjectTest",
-      "projectPath": "E:\\CT\\project ct\\RANT\\NetCore6-MVC\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
+      "projectPath": "E:\\CT\\project ct\\RANT\\www\\NetCore6-MVC\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
       "packagesPath": "C:\\Users\\haicu\\.nuget\\packages\\",
-      "outputPath": "E:\\CT\\project ct\\RANT\\NetCore6-MVC\\ProjectTest\\ProjectTest\\obj\\",
+      "outputPath": "E:\\CT\\project ct\\RANT\\www\\NetCore6-MVC\\ProjectTest\\ProjectTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
