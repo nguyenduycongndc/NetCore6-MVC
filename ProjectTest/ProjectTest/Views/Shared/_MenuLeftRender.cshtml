@@ -23,7 +23,7 @@
                     if (@currentuser.RoleId == 1)
                     {
                         <li>
-                            <a href="javascript:void(0);" onclick="home()" class="dropdown-toggle no-arrow follow">
+                            <a href="javascript:void(0);" onclick="home()" data-path="/Home" class="dropdown-toggle no-arrow follow">
                                 <span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
                             </a>
                         </li>
@@ -76,12 +76,12 @@
                         //    </ul>
                         //</li>
                         <li>
-                            <a href="javascript:void(0);" onclick="openViewIndex(1)" class="dropdown-toggle no-arrow follow">
+                            <a href="javascript:void(0);" onclick="openViewIndex(1)" data-path="/api/User" class="dropdown-toggle no-arrow follow">
                                 <span class="micon dw dw-user-1"></span><span class="mtext">Quản lý tài khoản</span>
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:void(0);" class="dropdown-toggle no-arrow follow" onclick="openViewIndex(2)">
+                            <a href="javascript:void(0);" class="dropdown-toggle no-arrow follow" onclick="openViewIndex(2)" data-path="/api/SendMail">
                                 <span class="micon dw dw-email"></span><span class="mtext">Send Mail</span>
                             </a>
                         </li>
@@ -224,5 +224,19 @@
         //} else if (menu === 12) {
         //    window.location.href = "/api/Account";
         //}
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        setInitialActiveMenuItem();
+    });
+    function setInitialActiveMenuItem() {
+        var currentPath = window.location.pathname;
+        var menuItems = document.querySelectorAll("#accordion-menu li a");
+
+        menuItems.forEach(function (item) {
+            var menuItemPath = item.getAttribute("data-path");
+            if (currentPath === menuItemPath) {
+                item.classList.add("active");
+            }
+        });
     }
 </script>
